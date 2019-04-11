@@ -11,12 +11,20 @@ class List {
 	public List() {
 		// front = new Node(piece);
 		head = null;
+		tail = null;
+		cursor = null;
 	}
 
 	// returns the length of the list, 0 if empty
 	public int length() {
 		int length = 0;
+		//if head is null, list must be empty
+		if(head == null)
+		{
+			return length;
+		}
 		Node start = head;
+		length++; //something is in the list, so it must be at least one long
 		while (start.next != null) {
 			start = start.next;
 			length++;
@@ -165,12 +173,14 @@ class List {
 		Node freshNode = new Node(data);
 		if(this.length() == 0)
 		{
+			//System.out.println("me append");
 			head = freshNode;
 			tail = freshNode;
 		}
 		//if not empty, traverse to the end and add to it
 		else
 		{
+			//System.out.println("me append2");
 			//pretty much the opposite of what happened above
 			tail.next = freshNode;
 			freshNode.prev = tail;
@@ -202,9 +212,16 @@ class List {
 	{
 		Node start = head;
 		String output = "";
+		//if list is empty, print nothing
+		if(this.length() == 0)
+		{
+			//System.out.println("fugg");
+			return "";
+		}
 		while (start.next != null)
 		{
-			output = start.data + " ";
+			System.out.println(start.data);
+			output = output + start.data + " ";
 			start = start.next;
 		}
 		return output;
