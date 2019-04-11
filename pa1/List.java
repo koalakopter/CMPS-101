@@ -34,7 +34,14 @@ class List {
 	// returns the index (position) of the cursor element
 	public int index() {
 		int cursor = -1; // default state
-
+		
+		Node start = head;
+		while(start != null)
+		{
+			start = start.next;
+			cursor++;
+		}
+		cursor++;
 		return cursor;
 	}
 
@@ -89,6 +96,7 @@ class List {
 	void clear() {
 		// just set the head to null cause lazy
 		this.head = null;
+		this.tail = null;
 	}
 
 	// puts cursor under front element
@@ -138,6 +146,7 @@ class List {
 		// if cursor is undefined
 		else if (this.index() == -1) {
 			// do nothing
+			System.out.println("am i here?");
 		} else {
 			cursor = cursor.next;
 		}
