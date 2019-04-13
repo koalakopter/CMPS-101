@@ -26,14 +26,18 @@ public class ListClient{
       System.out.println();
       
       List C = A.copy();
+      
       System.out.println(A.equals(B));
       System.out.println(B.equals(C));
       System.out.println(C.equals(A));
-      
+      //System.out.println("derp");
       A.moveFront();
+      
       for(int i=0; i<5; i++) A.moveNext(); // at index 5
       A.insertBefore(-1);                  // at index 6
+      //System.out.println(A);
       for(int i=0; i<9; i++) A.moveNext(); // at index 15
+      //System.out.println(A);
       A.insertAfter(-2);
       for(int i=0; i<5; i++) A.movePrev(); // at index 10
       A.delete();
@@ -41,6 +45,7 @@ public class ListClient{
       System.out.println(A.length());
       A.clear();
       System.out.println(A.length());
+      System.out.println("to the end");
    }
 }
 

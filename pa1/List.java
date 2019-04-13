@@ -33,16 +33,22 @@ class List {
 
 	// returns the index (position) of the cursor element
 	public int index() {
-		int cursor = -1; // default state
+		int cursorTrack = -1;
+		// default state
+		Node cursorRadar = cursor;
+		if (cursorRadar == null)
+		{
+			return -1;
+		}
 		
 		Node start = head;
 		while(start != null)
 		{
 			start = start.next;
-			cursor++;
+			cursorTrack++;
 		}
-		cursor++;
-		return cursor;
+		cursorTrack++;
+		return cursorTrack;
 	}
 
 	// like the above function, but returns the element instead
@@ -50,7 +56,14 @@ class List {
 		if (this.length() <= 0 && this.index() <= 0) {
 			throw new RuntimeException("LIST EMPTY");
 		}
-		return this.cursor.position;
+		//return this.cursor.position;
+		Node start = head;
+		//int position = 0;
+		while(start != cursor)
+		{
+			start = start.next;
+		}
+		return start.data;
 	}
 
 	// returns the string at the front of the list, else returns null
@@ -83,8 +96,12 @@ class List {
 		if (this.length() != L.length()) {
 			return false;
 		}
-		while (start.next != null && start2.next != null) {
-			if (start.position != start2.position) {
+		while (start.next != null || start2.next != null) {
+			start = start.next;
+			start2 = start2.next;
+			//checks for equality of elements
+			if(start.data != start2.data)
+			{
 				return false;
 			}
 		}
@@ -140,7 +157,7 @@ class List {
 	// puts cursor on the element one after the current
 	void moveNext() {
 		// if cursor at the end, make it undefined too
-		if (cursor == tail) {
+		if (cursor.next == null) {
 			cursor = null;
 		}
 		// if cursor is undefined
@@ -192,9 +209,15 @@ class List {
 
 	// adds an element before the current cursor's position
 	void insertBefore(int data) {
+		//check for prereqs
+		if (this.length() <= 0 || this.index() < 0)
+		{
+			throw new IllegalArgumentException("Cursor undefined or invalid List!");
+		}
 		Node freshNode = new Node(data);
 		// if the cursor is on the head, make the inserted Node the head
 		if (cursor == head) {
+			System.out.println("test");
 			head.prev = freshNode;
 			freshNode.next = head;
 			// check if the list is length 1
@@ -203,23 +226,41 @@ class List {
 			}
 			head = freshNode;
 		}
+		//otherwise insert normally
+		Node temp = cursor.prev;
+		cursor.prev.next = freshNode;
+		cursor.prev = freshNode;
+		
+		freshNode.next = cursor;
+		freshNode.prev = temp;
 
 	}
 
-	// adds an element before the current cursor's position
+	// adds an element after the current cursor's position
 	void insertAfter(int data) {
+		if (this.length() <= 0 || this.index() < 0)
+		{
+			throw new IllegalArgumentException("Cursor undefined or invalid List!");
+		}
 		Node freshNode = new Node(data);
-		// if the cursor is on the head, make the inserted Node the head
-		if (cursor == head) {
+		// if the cursor is on the tail, make the inserted Node the tail
+		if (cursor == tail) {
+			System.out.println("test");
 			head.prev = freshNode;
 			freshNode.next = head;
 			// check if the list is length 1
 			if (head == tail) {
 				tail = head;
 			}
-			head = freshNode;
+			tail = freshNode;
 		}
-
+		//otherwise insert normally
+		Node temp = cursor.next;
+		cursor.next.prev = freshNode;
+		cursor.next = freshNode;
+		
+		freshNode.prev = cursor;
+		freshNode.next = temp;
 	}
 
 	// delete the front element
