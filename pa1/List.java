@@ -1,3 +1,9 @@
+/* JULIAN TO
+ * PA 1
+ * CS 101
+ * PROFESSOR TANTALO
+ * SPRING 2019
+ */
 //Doubly-Linked List for use with Lex.java
 class List {
 	// front of the list
@@ -36,14 +42,12 @@ class List {
 		int cursorTrack = -1;
 		// default state
 		Node cursorRadar = cursor;
-		if (cursorRadar == null)
-		{
+		if (cursorRadar == null) {
 			return -1;
 		}
-		
+
 		Node start = head;
-		while(start != null)
-		{
+		while (start != null) {
 			start = start.next;
 			cursorTrack++;
 		}
@@ -56,17 +60,16 @@ class List {
 		if (this.length() <= 0 && this.index() <= 0) {
 			throw new RuntimeException("LIST EMPTY");
 		}
-		//return this.cursor.position;
+		// return this.cursor.position;
 		Node start = head;
-		//int position = 0;
-		while(start != cursor)
-		{
+		// int position = 0;
+		while (start != cursor) {
 			start = start.next;
 		}
 		return start.data;
 	}
 
-	// returns the string at the front of the list, else returns null
+	// returns the int at the front of the list, else returns null
 	public int front() {
 		if (this.length() <= 0) {
 			throw new RuntimeException("LIST EMPTY");
@@ -99,9 +102,8 @@ class List {
 		while (start.next != null || start2.next != null) {
 			start = start.next;
 			start2 = start2.next;
-			//checks for equality of elements
-			if(start.data != start2.data)
-			{
+			// checks for equality of elements
+			if (start.data != start2.data) {
 				return false;
 			}
 		}
@@ -209,9 +211,8 @@ class List {
 
 	// adds an element before the current cursor's position
 	void insertBefore(int data) {
-		//check for prereqs
-		if (this.length() <= 0 || this.index() < 0)
-		{
+		// check for prereqs
+		if (this.length() <= 0 || this.index() < 0) {
 			throw new IllegalArgumentException("Cursor undefined or invalid List!");
 		}
 		Node freshNode = new Node(data);
@@ -226,41 +227,42 @@ class List {
 			}
 			head = freshNode;
 		}
-		//otherwise insert normally
-		Node temp = cursor.prev;
-		cursor.prev.next = freshNode;
-		cursor.prev = freshNode;
-		
-		freshNode.next = cursor;
-		freshNode.prev = temp;
+		// otherwise insert normally
+		else {
+			Node temp = cursor.prev;
+			cursor.prev.next = freshNode;
+			cursor.prev = freshNode;
 
+			freshNode.next = cursor;
+			freshNode.prev = temp;
+		}
 	}
 
 	// adds an element after the current cursor's position
 	void insertAfter(int data) {
-		if (this.length() <= 0 || this.index() < 0)
-		{
+		if (this.length() <= 0 || this.index() < 0) {
 			throw new IllegalArgumentException("Cursor undefined or invalid List!");
 		}
 		Node freshNode = new Node(data);
 		// if the cursor is on the tail, make the inserted Node the tail
 		if (cursor == tail) {
 			System.out.println("test");
-			head.prev = freshNode;
-			freshNode.next = head;
+			tail.next = freshNode;
+			freshNode.prev = tail;
 			// check if the list is length 1
 			if (head == tail) {
-				tail = head;
+				// head = freshNode.prev;
 			}
 			tail = freshNode;
+		} else {
+			// otherwise insert normally
+			Node temp = cursor.next;
+			cursor.next.prev = freshNode;
+			cursor.next = freshNode;
+
+			freshNode.prev = cursor;
+			freshNode.next = temp;
 		}
-		//otherwise insert normally
-		Node temp = cursor.next;
-		cursor.next.prev = freshNode;
-		cursor.next = freshNode;
-		
-		freshNode.prev = cursor;
-		freshNode.next = temp;
 	}
 
 	// delete the front element
@@ -282,24 +284,20 @@ class List {
 		tail.prev.next = null;
 		tail = tail.prev;
 	}
-	
-	//delete the cursor element
-	void delete()
-	{
+
+	// delete the cursor element
+	void delete() {
 		Node point = cursor;
-		//delete the links in the list that connect cursor to the rest of the list
-		if(point == head)
-		{
+		// delete the links in the list that connect cursor to the rest of the list
+		if (point == head) {
 			head = cursor.next;
 			head.prev = null;
 		}
-		if(point == tail)
-		{
+		if (point == tail) {
 			tail = cursor.prev;
 			tail.next = null;
 		}
-		if(point != head && point != tail)
-		{
+		if (point != head && point != tail) {
 			cursor.prev.next = point.next;
 			cursor.next.prev = point.prev;
 		}
@@ -322,19 +320,30 @@ class List {
 		output = output + start.data + " ";
 		return output;
 	}
-	
-	//copy the list into a new list
-	public List copy()
-	{
+
+	// copy the list into a new list
+	public List copy() {
 		List copiedList = new List();
 		Node start = head;
-		//traverse the list, and copy the elements into a new list
-		while(start.next != null)
-		{
+		// traverse the list, and copy the elements into a new list
+		while (start.next != null) {
 			copiedList.append(start.data);
 			start = start.next;
 		}
 		copiedList.append(start.data);
 		return copiedList;
+	}
+	
+	//joins two lists together, with the input List being on the end
+	//note: not tested
+	List concat(List L)
+	{
+		//List newList = new List();
+		tail.next = L.head;
+		L.head.prev = tail;
+		
+		//change the tail to L's tail
+		tail = L.tail;
+		return this;
 	}
 }

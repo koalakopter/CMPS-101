@@ -45,6 +45,7 @@ public class ListClient{
       System.out.println(A.length());
       A.clear();
       System.out.println(A.length());
+      
       System.out.println("to the end");
    }
 }
