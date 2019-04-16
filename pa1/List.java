@@ -11,11 +11,11 @@ class Node {
 	int position;
 	Node next;
 	Node prev;
-	
+
 	// constructor: takes the first element in the array and stores it in the node
 	public Node(int input) {
 		this.data = input;
-		//this.position = 0;
+		// this.position = 0;
 		this.next = null;
 		this.prev = null;
 	}
@@ -182,7 +182,7 @@ class List {
 		// if cursor is undefined
 		else if (this.index() == -1) {
 			// do nothing
-			//System.out.println("am i here?");
+			// System.out.println("am i here?");
 		} else {
 			cursor = cursor.next;
 		}
@@ -235,7 +235,7 @@ class List {
 		Node freshNode = new Node(data);
 		// if the cursor is on the head, make the inserted Node the head
 		if (cursor == head) {
-			//System.out.println("test");
+			// System.out.println("test");
 			head.prev = freshNode;
 			freshNode.next = head;
 			// check if the list is length 1
@@ -263,7 +263,7 @@ class List {
 		Node freshNode = new Node(data);
 		// if the cursor is on the tail, make the inserted Node the tail
 		if (cursor == tail) {
-			//System.out.println("test");
+			// System.out.println("test");
 			tail.next = freshNode;
 			freshNode.prev = tail;
 			// check if the list is length 1
@@ -287,6 +287,12 @@ class List {
 		if (this.length() == 0) {
 			throw new IllegalArgumentException("Length is zero!");
 		}
+		// if length 1, just delete the whole list
+		if (this.length() == 1) {
+			head = null;
+			tail = null;
+			return;
+		}
 		// simply move the head to the next element
 		head.next.prev = null;
 		head = head.next;
@@ -296,6 +302,12 @@ class List {
 	void deleteBack() {
 		if (this.length() == 0) {
 			throw new IllegalArgumentException("Length is zero!");
+		}
+		// if length 1, just delete the whole list
+		if (this.length() == 1) {
+			head = null;
+			tail = null;
+			return;
 		}
 		// delete the tail
 		tail.prev.next = null;
@@ -313,7 +325,7 @@ class List {
 			return;
 		}
 		if (point == tail) {
-			//System.out.println("here?");
+			// System.out.println("here?");
 			tail = cursor.prev;
 			tail.next = null;
 			cursor = null;
@@ -357,16 +369,15 @@ class List {
 		copiedList.append(start.data);
 		return copiedList;
 	}
-	
-	//joins two lists together, with the input List being on the end
-	//note: not tested
-	List concat(List L)
-	{
-		//List newList = new List();
+
+	// joins two lists together, with the input List being on the end
+	// note: not tested
+	List concat(List L) {
+		// List newList = new List();
 		tail.next = L.head;
 		L.head.prev = tail;
-		
-		//change the tail to L's tail
+
+		// change the tail to L's tail
 		tail = L.tail;
 		return this;
 	}
