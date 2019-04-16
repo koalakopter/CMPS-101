@@ -1,8 +1,14 @@
-
+/* JULIAN TO (jcto)
+ * PA 1
+ * CS 101
+ * PROFESSOR TANTALO
+ * SPRING 2019
+ */
 public class TestClient {
 	  public static void main(String[] args){
-		  
+		  /*
 		  System.out.println("BEGIN THE TESTS!");
+
 		  List test = new List();
 		  //test.insertBefore(5);
 		  //test.insertAfter(5);
@@ -46,5 +52,29 @@ public class TestClient {
 		  System.out.println("List 2: " + test2);
 		  test.concat(test2);
 		  System.out.println("combine List 1 and 2: " + test);
+		  test.moveFront();
+		  for(int x = 0; x < 4; x++)
+		  {
+			  test.moveNext();
+		  }
+		  System.out.println(test.get());
+		  */
+		  //random tests
+		  System.out.println("secondary tests");
+		  List fudge = new List();
+		  fudge.append(14);
+		  fudge.append(2);
+		  System.out.println(fudge + " tail is " + fudge.tail.data);
+		  fudge.moveBack();
+		  System.out.println(fudge.get() + " index is " + fudge.index());
+		  fudge.delete();
+		  System.out.println("tail is currently " + fudge.tail.data);
+		  System.out.println(fudge.back());
+		  fudge.moveFront();
+		  System.out.println(fudge.get());
+		  fudge.insertAfter(5);
+		  System.out.println(fudge);
+		  System.out.println(fudge.tail.data);
+		  
 	  }
 }

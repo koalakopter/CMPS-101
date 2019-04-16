@@ -3,6 +3,12 @@
 //  A test client for the List ADT. Use this to test your list module. The
 //  correct output is given below.
 //-----------------------------------------------------------------------------
+/* JULIAN TO (jcto)
+ * PA 1
+ * CS 101
+ * PROFESSOR TANTALO
+ * SPRING 2019
+ */
 
 public class ListClient{
    public static void main(String[] args){
@@ -26,18 +32,14 @@ public class ListClient{
       System.out.println();
       
       List C = A.copy();
-      
       System.out.println(A.equals(B));
       System.out.println(B.equals(C));
       System.out.println(C.equals(A));
-      //System.out.println("derp");
-      A.moveFront();
       
+      A.moveFront();
       for(int i=0; i<5; i++) A.moveNext(); // at index 5
       A.insertBefore(-1);                  // at index 6
-      //System.out.println(A);
       for(int i=0; i<9; i++) A.moveNext(); // at index 15
-      //System.out.println(A);
       A.insertAfter(-2);
       for(int i=0; i<5; i++) A.movePrev(); // at index 10
       A.delete();
@@ -46,7 +48,22 @@ public class ListClient{
       A.clear();
       System.out.println(A.length());
       
-      System.out.println("to the end");
+	  System.out.println("secondary tests");
+	  List fudge = new List();
+	  fudge.append(14);
+	  fudge.append(2);
+	  System.out.println(fudge + " tail is " + fudge.tail.data);
+	  fudge.moveBack();
+	  System.out.println(fudge.get() + " index is " + fudge.index());
+	  fudge.delete();
+	  System.out.println("tail is currently " + fudge.tail.data);
+	  System.out.println(fudge.back());
+	  fudge.moveFront();
+	  System.out.println(fudge.get());
+	  fudge.insertAfter(5);
+	  System.out.println(fudge);
+	  System.out.println(fudge.tail.data);
+	  
    }
 }
 

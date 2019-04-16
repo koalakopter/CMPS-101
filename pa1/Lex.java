@@ -1,5 +1,5 @@
 
-/* JULIAN TO
+/* JULIAN TO (jcto)
  * PA 1
  * CS 101
  * PROFESSOR TANTALO
@@ -59,7 +59,8 @@ public class Lex {
 			j = i - 1;
 			String temp = input[i];
 			poi.moveBack();
-			//move the element back until it is lexographically less than the one in front
+			//move the element backwards on the list
+			//until it is lexicographically less than the one in front
 			while (j >= 0 && temp.compareTo(input[poi.get()]) <= 0) {
 				poi.movePrev();
 				j--;

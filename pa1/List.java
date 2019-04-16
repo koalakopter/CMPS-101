@@ -1,9 +1,26 @@
-/* JULIAN TO
+/* JULIAN TO (jcto)
  * PA 1
  * CS 101
  * PROFESSOR TANTALO
  * SPRING 2019
  */
+
+//node object that forms the linked list
+class Node {
+	int data;
+	int position;
+	Node next;
+	Node prev;
+	
+	// constructor: takes the first element in the array and stores it in the node
+	public Node(int input) {
+		this.data = input;
+		//this.position = 0;
+		this.next = null;
+		this.prev = null;
+	}
+}
+
 //Doubly-Linked List for use with Lex.java
 class List {
 	// front of the list
@@ -57,8 +74,8 @@ class List {
 
 	// like the above function, but returns the element instead
 	public int get() {
-		if (this.length() <= 0 && this.index() <= 0) {
-			throw new RuntimeException("LIST EMPTY");
+		if (this.length() <= 0 || this.index() <= 0) {
+			throw new RuntimeException("LIST EMPTY OR CURSOR UNDEFINED");
 		}
 		// return this.cursor.position;
 		Node start = head;
@@ -72,22 +89,22 @@ class List {
 	// returns the int at the front of the list, else returns null
 	public int front() {
 		if (this.length() <= 0) {
-			throw new RuntimeException("LIST EMPTY");
+			throw new IllegalArgumentException("Length of List is zero!");
 		}
-		return head.position;
+		return head.data;
 	}
 
 	// traverse the list to the end and then get the end returns the string
 	// null if length is zero or less
 	public int back() {
 		if (this.length() <= 0) {
-			throw new IllegalArgumentException("Length is zero!");
+			throw new IllegalArgumentException("Length of List is zero!");
 		}
 		Node start = head;
 		while (start.next != null) {
 			start = start.next;
 		}
-		return start.position;
+		return start.data;
 	}
 
 	// checks if two lists are equal
@@ -165,7 +182,7 @@ class List {
 		// if cursor is undefined
 		else if (this.index() == -1) {
 			// do nothing
-			System.out.println("am i here?");
+			//System.out.println("am i here?");
 		} else {
 			cursor = cursor.next;
 		}
@@ -218,7 +235,7 @@ class List {
 		Node freshNode = new Node(data);
 		// if the cursor is on the head, make the inserted Node the head
 		if (cursor == head) {
-			System.out.println("test");
+			//System.out.println("test");
 			head.prev = freshNode;
 			freshNode.next = head;
 			// check if the list is length 1
@@ -246,7 +263,7 @@ class List {
 		Node freshNode = new Node(data);
 		// if the cursor is on the tail, make the inserted Node the tail
 		if (cursor == tail) {
-			System.out.println("test");
+			//System.out.println("test");
 			tail.next = freshNode;
 			freshNode.prev = tail;
 			// check if the list is length 1
@@ -292,14 +309,21 @@ class List {
 		if (point == head) {
 			head = cursor.next;
 			head.prev = null;
+			cursor = null;
+			return;
 		}
 		if (point == tail) {
+			//System.out.println("here?");
 			tail = cursor.prev;
 			tail.next = null;
+			cursor = null;
+			return;
 		}
 		if (point != head && point != tail) {
 			cursor.prev.next = point.next;
 			cursor.next.prev = point.prev;
+			cursor = null;
+			return;
 		}
 	}
 
