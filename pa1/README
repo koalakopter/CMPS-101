@@ -1,0 +1,15 @@
+Julian To
+jcto
+PA1: CMPS 101
+
+FILES PROVIDED
+
+List.java: Provides an ADT for a doubly Linked List with each list object containing an integer. Also provides several necessary functions as described in the assignment description. Not all functions were used, but all are useful in various ways to manipulate the list.
+
+Lex.java: The main class which reads in an input file and alphabatizes a series of Strings by placing the positions into the above described List and then sorting it. The program then uses the list to print out an alphabatized list of the input Strings
+
+Makefile: Provided by the professor. Simply builds and compiles all files currently in the same directory as the Makefile. 
+
+ListClient.java: Provides a series of tests for testing the List.java file. Quite rudimentary and I wrote my own testing client, although it has not been provides since it was not asked for. 
+
+README: this file
