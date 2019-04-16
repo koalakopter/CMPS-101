@@ -6,7 +6,7 @@
  */
 public class TestClient {
 	  public static void main(String[] args){
-		  /*
+		  
 		  System.out.println("BEGIN THE TESTS!");
 
 		  List test = new List();
@@ -58,8 +58,35 @@ public class TestClient {
 			  test.moveNext();
 		  }
 		  System.out.println(test.get());
-		  */
+		  List fun = new List();
+		  fun.moveFront();
+		  fun = test.copy();
+		  System.out.println(fun);
+		  fun.append(2);
+		  test.append(2);
+		  System.out.println(fun.equals(test));
+		  test.clear();
+		  System.out.println(test.index());
+		  //test.append(5);
+		  test.moveFront();
+		  //test.insertBefore(5);
+		  System.out.println("test is: " + test);
+		  System.out.println("test length: " + test.length());
+		  
+		  System.out.println(fun);
+		  fun.moveFront();
+		  fun.moveNext();
+		  fun.moveNext();
+		  fun.moveNext();
+		  
+		  System.out.println(fun.get());
+		  fun.delete();
+		  System.out.println(fun);
+		  //System.out.println(fun.get());
+		  
+		  
 		  //random tests
+		  /*
 		  System.out.println("secondary tests");
 		  List fudge = new List();
 		  fudge.append(14);
@@ -72,9 +99,14 @@ public class TestClient {
 		  System.out.println(fudge.back());
 		  fudge.moveFront();
 		  System.out.println(fudge.get());
-		  fudge.insertAfter(5);
+		  //fudge.insertAfter(5);
 		  System.out.println(fudge);
 		  System.out.println(fudge.tail.data);
-		  
+		  //fudge.deleteBack();
+		  fudge.deleteFront();
+		  System.out.println("list is: " + fudge);
+		  List lethal = new List();
+		  lethal = fudge.copy();
+		  */
 	  }
 }

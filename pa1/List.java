@@ -116,6 +116,11 @@ class List {
 		if (this.length() != L.length()) {
 			return false;
 		}
+		//two empty lists are equal, I presume
+		if(this.length() == 0 && L.length() == 0)
+		{
+			return true;
+		}
 		while (start.next != null || start2.next != null) {
 			start = start.next;
 			start2 = start2.next;
@@ -133,6 +138,7 @@ class List {
 		// just set the head to null cause lazy
 		this.head = null;
 		this.tail = null;
+		this.cursor = null; //cursor is null too
 	}
 
 	// puts cursor under front element
@@ -360,6 +366,11 @@ class List {
 	// copy the list into a new list
 	public List copy() {
 		List copiedList = new List();
+		//if length of current list is zero, do nothing
+		if(this.length() == 0)
+		{
+			return copiedList;
+		}
 		Node start = head;
 		// traverse the list, and copy the elements into a new list
 		while (start.next != null) {
