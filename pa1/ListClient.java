@@ -3,12 +3,6 @@
 //  A test client for the List ADT. Use this to test your list module. The
 //  correct output is given below.
 //-----------------------------------------------------------------------------
-/* JULIAN TO (jcto)
- * PA 1
- * CS 101
- * PROFESSOR TANTALO
- * SPRING 2019
- */
 
 public class ListClient{
    public static void main(String[] args){
@@ -47,23 +41,6 @@ public class ListClient{
       System.out.println(A.length());
       A.clear();
       System.out.println(A.length());
-      
-	  System.out.println("secondary tests");
-	  List fudge = new List();
-	  fudge.append(14);
-	  fudge.append(2);
-	  System.out.println(fudge + " tail is " + fudge.tail.data);
-	  fudge.moveBack();
-	  System.out.println(fudge.get() + " index is " + fudge.index());
-	  fudge.delete();
-	  System.out.println("tail is currently " + fudge.tail.data);
-	  System.out.println(fudge.back());
-	  fudge.moveFront();
-	  System.out.println(fudge.get());
-	  fudge.insertAfter(5);
-	  System.out.println(fudge);
-	  System.out.println(fudge.tail.data);
-	  
    }
 }
 
@@ -78,5 +55,4 @@ public class ListClient{
 // 1 2 3 4 5 -1 6 7 8 9 11 12 13 14 15 -2 16 17 18 19 20
 // 21
 // 0
-
 
