@@ -61,7 +61,7 @@ public class TestClient {
 		  List fun = new List();
 		  fun.moveFront();
 		  fun = test.copy();
-		  System.out.println(fun);
+		  System.out.println(fun + " tail is " + fun.tail.data);
 		  fun.append(2);
 		  test.append(2);
 		  System.out.println(fun.equals(test));
@@ -78,11 +78,9 @@ public class TestClient {
 		  fun.moveNext();
 		  fun.moveNext();
 		  fun.moveNext();
-		  
+
 		  System.out.println(fun.get());
-		  fun.delete();
-		  System.out.println(fun);
-		  //System.out.println(fun.get());
+		  System.out.println(fun.index());
 		  
 		  
 		  //random tests

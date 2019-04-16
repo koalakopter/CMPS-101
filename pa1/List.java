@@ -64,7 +64,12 @@ class List {
 		}
 
 		Node start = head;
-		while (start != null) {
+		while (start.next != null) {
+			//if the cursor is found, return that position 
+			if(start == cursorRadar)
+			{
+				//break;
+			}
 			start = start.next;
 			cursorTrack++;
 		}
@@ -74,7 +79,7 @@ class List {
 
 	// like the above function, but returns the element instead
 	public int get() {
-		if (this.length() <= 0 || this.index() <= 0) {
+		if (this.length() <= 0 || this.index() < 0) {
 			throw new RuntimeException("LIST EMPTY OR CURSOR UNDEFINED");
 		}
 		// return this.cursor.position;
@@ -372,12 +377,14 @@ class List {
 			return copiedList;
 		}
 		Node start = head;
+		//copiedList.head = start;
 		// traverse the list, and copy the elements into a new list
 		while (start.next != null) {
 			copiedList.append(start.data);
 			start = start.next;
 		}
 		copiedList.append(start.data);
+		//copiedList.tail = start;
 		return copiedList;
 	}
 
