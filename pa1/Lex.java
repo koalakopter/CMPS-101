@@ -56,6 +56,7 @@ public class Lex {
 		poi.append(0);
 		int i, j = 0;
 		for (i = 1; i < counter; i++) {
+			//System.out.println(i);
 			j = i - 1;
 			String temp = input[i];
 			poi.moveBack();

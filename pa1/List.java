@@ -65,10 +65,9 @@ class List {
 
 		Node start = head;
 		while (start.next != null) {
-			//if the cursor is found, return that position 
-			if(start == cursorRadar)
-			{
-				//break;
+			// if the cursor is found, return that position
+			if (start == cursorRadar) {
+				break;
 			}
 			start = start.next;
 			cursorTrack++;
@@ -121,9 +120,8 @@ class List {
 		if (this.length() != L.length()) {
 			return false;
 		}
-		//two empty lists are equal, I presume
-		if(this.length() == 0 && L.length() == 0)
-		{
+		// two empty lists are equal, I presume
+		if (this.length() == 0 && L.length() == 0) {
 			return true;
 		}
 		while (start.next != null || start2.next != null) {
@@ -143,7 +141,7 @@ class List {
 		// just set the head to null cause lazy
 		this.head = null;
 		this.tail = null;
-		this.cursor = null; //cursor is null too
+		this.cursor = null; // cursor is null too
 	}
 
 	// puts cursor under front element
@@ -298,6 +296,10 @@ class List {
 		if (this.length() == 0) {
 			throw new IllegalArgumentException("Length is zero!");
 		}
+		// if the cursor is on the head, make it null
+		if (cursor == head) {
+			cursor = null;
+		}
 		// if length 1, just delete the whole list
 		if (this.length() == 1) {
 			head = null;
@@ -313,6 +315,10 @@ class List {
 	void deleteBack() {
 		if (this.length() == 0) {
 			throw new IllegalArgumentException("Length is zero!");
+		}
+		// if the cursor is on the tail, make it null
+		if (cursor == tail) {
+			cursor = null;
 		}
 		// if length 1, just delete the whole list
 		if (this.length() == 1) {
@@ -371,20 +377,19 @@ class List {
 	// copy the list into a new list
 	public List copy() {
 		List copiedList = new List();
-		//if length of current list is zero, do nothing
-		if(this.length() == 0)
-		{
+		// if length of current list is zero, do nothing
+		if (this.length() == 0) {
 			return copiedList;
 		}
 		Node start = head;
-		//copiedList.head = start;
+		// copiedList.head = start;
 		// traverse the list, and copy the elements into a new list
 		while (start.next != null) {
 			copiedList.append(start.data);
 			start = start.next;
 		}
 		copiedList.append(start.data);
-		//copiedList.tail = start;
+		// copiedList.tail = start;
 		return copiedList;
 	}
 
