@@ -10,6 +10,7 @@ Spring 2019
 #include <string.h>
 
 #include "List.h"
+// STRUCTS
 
 // defines the Node which holds all data
 typedef struct NodeItem {
@@ -18,16 +19,36 @@ typedef struct NodeItem {
   int data;
 } NodeItem;
 
-// defines the List which holds all the Nodes
-struct List {
-  NodeItem *head;   // defines the head of the list
-  NodeItem *tail;   // defines the tail of the list
-  NodeItem *cursor; // defines the cursor object
-};
+// save some typing
+typedef NodeItem *Node;
 
-// makes a new list
-List *newList(void) {
-  List *new_List = malloc(sizeof(List));
+// defines the List which holds all the Nodes
+typedef struct ListObject {
+  NodeItem head;   // defines the head of the list
+  NodeItem tail;   // defines the tail of the list
+  NodeItem cursor; // defines the cursor object
+} ListObject;
+
+// makes a new Nodes
+NodeItem newNode(int data) {
+  NodeItem *x = malloc(sizeof(NodeItem));
+  x->data = data;
+  x->nextItem = NULL;
+  x->prevItem = NULL;
+}
+
+// frees a Node from memory
+void freeNode(Node *n) {
+  if (*n != NULL && n != NULL) {
+    free(*n);
+    *n = NULL;
+  }
+}
+
+// makes a new list, returning the LIst
+List newList(void) {
+  List new_List;
+  new_List = malloc(sizeof(ListObject));
   // set head, tail, and cursor all to null
   new_List->head = NULL;
   new_List->tail = NULL;
@@ -38,7 +59,7 @@ List *newList(void) {
 // MOST FUNCTIONS TAKE IN THE LIST AS AN ARGUMENT FOR THE FUNCTION
 
 // returns the length of the list, returns zero if empty
-int length(List *L) {
+int length(List L) {
   NodeItem *pointer = L->head;
   int length = 0;
   // if head is null, list is probably empty (barring weird circumstance)
@@ -54,7 +75,7 @@ int length(List *L) {
 }
 
 // returns the index (position) of the cursor element
-int index(List *L) {
+int index(List L) {
   int cursorTracker = -1;
   // if cursor undefined, return -1
   NodeItem *cursorRadar = L->cursor;
