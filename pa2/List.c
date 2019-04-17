@@ -277,3 +277,72 @@ void append(List L, int data) {
     L->tail = freshNode;
   }
 }
+
+// adds an element before the current cursor's position
+void insertBefore(List L, int data) {
+  // check for valid arguments
+  if (length(L) <= 0 || index(L) < 0) {
+    printf("ERROR: Invalid List or Cursor undefined\n");
+    exit(1);
+  }
+  Node freshNode = newNode(data);
+  // if cursor is on the head, make the new Node the head
+  if (L->cursor == L->head) {
+    L->head->prevItem = freshNode;
+    freshNode->nextItem = L->head;
+    L->head = freshNode;
+  }
+  // otherwise insert normally
+  else {
+    Node temp = L->cursor->prevItem;
+    L->cursor->prevItem->nextItem = freshNode;
+    L->cursor->prevItem = freshNode;
+
+    freshNode->nextItem = L->cursor;
+    freshNode->prevItem = temp;
+  }
+}
+
+void insertAfter(List L, int data) {
+  // check for valid arguments
+  if (length(L) <= 0 || index(L) < 0) {
+    printf("ERROR: Invalid List or Cursor undefined\n");
+    exit(1);
+  }
+  Node freshNode = newNode(data);
+  // if cursor is on the head, make the new Node the head
+  if (L->cursor == L->tail) {
+    L->tail->nextItem = freshNode;
+    freshNode->prevItem = L->tail;
+    L->tail = freshNode;
+  }
+  // insert normally otherwise
+  else {
+    Node temp = L->cursor->nextItem;
+    L->cursor->nextItem->prevItem = freshNode;
+    L->cursor->nextItem = freshNode;
+
+    freshNode->prevItem = L->cursor;
+    freshNode->nextItem = temp;
+  }
+}
+// simply deletes the front element
+void deleteFront(List L) {
+  if (length(L) == 0) {
+    printf("\nERROR: list length is zero\n");
+    exit(1);
+  }
+  // if the cursor is on the head, set it to NULL
+  if (L->cursor == L->head) {
+    L->cursor = NULL;
+  }
+  // if length of list is 1, delete the entire list
+  if (length(L) == 1) {
+    clear(L);
+  }
+  // if not, just move head over to the right by one
+  else {
+    L->head->nextItem->prevItem = NULL;
+    L->head = L->head->nextItem;
+  }
+}
