@@ -33,7 +33,7 @@ void deleteBack(List L);
 void delete (List L);
 
 // other operations
-void printList(FILE *out, List L);
+// void printList(FILE *out, List L);
 List copyList(List L);
 
 #endif
