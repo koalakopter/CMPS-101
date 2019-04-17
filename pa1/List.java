@@ -124,6 +124,9 @@ class List {
 		if (this.length() == 0 && L.length() == 0) {
 			return true;
 		}
+		if (start.data != start2.data) {
+			return false;
+		}
 		while (start.next != null || start2.next != null) {
 			start = start.next;
 			start2 = start2.next;
