@@ -24,9 +24,14 @@ typedef NodeItem *Node;
 
 // defines the List which holds all the Nodes
 typedef struct ListObject {
-  NodeItem head;   // defines the head of the list
-  NodeItem tail;   // defines the tail of the list
-  NodeItem cursor; // defines the cursor object
+  Node head;   // defines the head of the list
+  Node tail;   // defines the tail of the list
+  Node cursor; // defines the cursor object
+
+  //other data points
+ // int index;
+  //int length;
+
 } ListObject;
 
 // makes a new Nodes
@@ -47,20 +52,23 @@ void freeNode(Node *n) {
 
 // makes a new list, returning the LIst
 List newList(void) {
-  List new_List;
-  new_List = malloc(sizeof(ListObject));
+  List L;
+  L = malloc(sizeof(ListObject));
   // set head, tail, and cursor all to null
-  new_List->head = NULL;
-  new_List->tail = NULL;
-  new_List->cursor = NULL;
-  return new_List;
+  L->head = NULL;
+  L->tail = NULL;
+  L->cursor = NULL;
+  //index defaults to -1, length is
+  //new_List->index = -1;
+  //new_List->length = 0;
+  return L;
 }
 
 // MOST FUNCTIONS TAKE IN THE LIST AS AN ARGUMENT FOR THE FUNCTION
 
 // returns the length of the list, returns zero if empty
 int length(List L) {
-  NodeItem *pointer = L->head;
+  Node pointer = L->head;
   int length = 0;
   // if head is null, list is probably empty (barring weird circumstance)
   if (pointer == NULL) {
@@ -78,10 +86,14 @@ int length(List L) {
 int index(List L) {
   int cursorTracker = -1;
   // if cursor undefined, return -1
-  NodeItem *cursorRadar = L->cursor;
+  Node cursorRadar = NULL;
+  cursorRadar = L->head;
   if (cursorRadar == NULL) {
     return cursorTracker;
-  }
+  }if(L == NULL){
+		printf("\nERROR: Calling function on undefined List\n");
+		exit(1);
+	}
 
   // otherwise, traverse the list until cursor is located
   NodeItem *pointer = L->head;
@@ -94,4 +106,15 @@ int index(List L) {
   }
   cursorTracker++;
   return cursorTracker;
+}
+
+// returns the data point at the front of the LIST
+int data(List L) {
+    int listLength = length(L);
+  // if length is zero, throw error
+  if (listLength == 0) {
+    printf("\nERROR: LIST LENGTH IS ZERO\n");
+    exit(1);
+  }
+  return L->head->data;
 }
