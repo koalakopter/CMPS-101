@@ -68,6 +68,10 @@ List newList(void) {
 
 // returns the length of the list, returns zero if empty
 int length(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   Node pointer = L->head;
   int length = 0;
   // if head is null, list is probably empty (barring weird circumstance)
@@ -84,6 +88,10 @@ int length(List L) {
 
 // returns the index (position) of the cursor element
 int index(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   int cursorTracker = -1;
   // if cursor undefined, return -1
   Node cursorRadar = NULL;
@@ -91,11 +99,6 @@ int index(List L) {
   if (cursorRadar == NULL) {
     return cursorTracker;
   }
-  if (L == NULL) {
-    printf("\nERROR: Calling function on undefined List\n");
-    exit(1);
-  }
-
   // otherwise, traverse the list until cursor is located
   NodeItem *pointer = L->head;
   while (pointer->nextItem != NULL) {
@@ -133,15 +136,14 @@ int get(List L) {
 
 // returns the data point at the front of the LIST
 int front(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   int listLength = length(L);
   // if length is zero, throw error
   if (listLength == 0) {
     printf("\nERROR: LIST LENGTH IS ZERO\n");
-    exit(1);
-  }
-  // if list is not defined, throw error as well
-  if (L == NULL) {
-    printf("\nERROR: LIST UNDEFINED\n");
     exit(1);
   }
   return L->head->data;
@@ -149,15 +151,14 @@ int front(List L) {
 
 // returns the data point at the end of the LIST
 int back(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   int listLength = length(L);
   // if length is zero, throw error
   if (listLength == 0) {
     printf("\nERROR: LIST LENGTH IS ZERO\n");
-    exit(1);
-  }
-  // if list is not defined, throw error as well
-  if (L == NULL) {
-    printf("\nERROR: LIST UNDEFINED\n");
     exit(1);
   }
   return L->tail->data;
@@ -193,6 +194,10 @@ int equals(List A, List B) {
 
 // manipulation FUNCTIONS
 void clear(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   L->head = NULL;
   L->tail = NULL;
   L->cursor = NULL;
@@ -200,6 +205,10 @@ void clear(List L) {
 
 // put cursor under front elements
 void moveFront(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   if (length(L) <= 0) {
     return; // do nothing
   } else {
@@ -209,6 +218,10 @@ void moveFront(List L) {
 
 // put cursor under front elements
 void moveBack(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   if (length(L) <= 0) {
     return; // do nothing
   } else {
@@ -218,6 +231,10 @@ void moveBack(List L) {
 
 // move cursor one back from the current point
 void movePrev(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   // if cursor at the front of the list, make cursor UNDEFINED
   if (L->cursor == L->head) {
     L->cursor = NULL;
@@ -232,6 +249,10 @@ void movePrev(List L) {
 
 // move cursor one forward from the current point
 void moveNext(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   // if cursor at the front of the list, make cursor UNDEFINED
   if (L->cursor == L->head) {
     L->cursor = NULL;
@@ -246,6 +267,10 @@ void moveNext(List L) {
 
 // adds a node to the front of the list
 void prepend(List L, int data) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   // make a new Node
   Node freshNode = newNode(data);
   // if list is empty, make this the first node
@@ -263,6 +288,10 @@ void prepend(List L, int data) {
 
 // adds a node to the end of the list
 void append(List L, int data) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   // make a new Node
   Node freshNode = newNode(data);
   // if list is empty, make this the first node
@@ -280,6 +309,10 @@ void append(List L, int data) {
 
 // adds an element before the current cursor's position
 void insertBefore(List L, int data) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   // check for valid arguments
   if (length(L) <= 0 || index(L) < 0) {
     printf("ERROR: Invalid List or Cursor undefined\n");
@@ -304,6 +337,10 @@ void insertBefore(List L, int data) {
 }
 
 void insertAfter(List L, int data) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   // check for valid arguments
   if (length(L) <= 0 || index(L) < 0) {
     printf("ERROR: Invalid List or Cursor undefined\n");
@@ -328,6 +365,10 @@ void insertAfter(List L, int data) {
 }
 // simply deletes the front element
 void deleteFront(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
   if (length(L) == 0) {
     printf("\nERROR: list length is zero\n");
     exit(1);
@@ -344,5 +385,30 @@ void deleteFront(List L) {
   else {
     L->head->nextItem->prevItem = NULL;
     L->head = L->head->nextItem;
+  }
+}
+
+// simply deletes the back element
+void delteBack(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
+  if (length(L) == 0) {
+    printf("\nERROR: list length is zero\n");
+    exit(1);
+  }
+  // if the cursor is on the tail, set it to NULL
+  if (L->cursor == L->tail) {
+    L->cursor = NULL;
+  }
+  // if length of list is 1, delete the entire list
+  if (length(L) == 1) {
+    clear(L);
+  }
+  // if not, just move tail over to the left by one
+  else {
+    L->tail->prevItem->nextItem = NULL;
+    L->tail = L->tail->prevItem;
   }
 }
