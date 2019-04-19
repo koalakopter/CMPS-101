@@ -412,3 +412,72 @@ void delteBack(List L) {
     L->tail = L->tail->prevItem;
   }
 }
+
+// deletes a node in the LIST
+void delete (List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
+  if (length(L) <= 0 || L->cursor == NULL) {
+    printf("\nERROR: Invalid List length or undefined cursor");
+    exit(1);
+  }
+  // delete the links in the list
+  Node point = L->cursor;
+  // if cursor is on the head, follow the deleteFront procedure.
+  if (L->cursor == L->head) {
+    deleteFront(L);
+  }
+  // if cursor is on the tail, follow deleteBack procedure
+  else if (L->cursor == L->tail) {
+    deleteBack(L);
+  }
+  // otherwise, delete links normally
+  else {
+    L->cursor->prevItem->nextItem = point->nextItem;
+    L->cursor->nextItem->prevItem = point->prevItem;
+    L->cursor = NULL;
+  }
+}
+
+// print the list
+void printList(FILE *out, List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
+  Node temp = L->head;
+  while (temp != NULL) {
+    fprintf(out, "%d", temp->data);
+    temp = temp->nextItem;
+  }
+}
+
+// print the list but not in a file (just for tests)
+void printList2(char *out, List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
+  Node temp = L->head;
+  while (temp != NULL) {
+    printf(out, "%d", temp->data);
+    temp = temp->nextItem;
+  }
+}
+
+// copies a list exactly except for the cursor
+List copyList(List L) {
+  if (L == NULL) {
+    printf("\nERROR: Calling function on undefined List\n");
+    exit(1);
+  }
+  List out = newList();
+  Node copy = L->head;
+  while (copy != NULL) {
+    append(out, copy->data);
+    copy = copy->nextItem;
+  }
+  return out;
+}
