@@ -61,25 +61,25 @@ int main(int argc, char *argv[]) {
   // make a new LIST
   List listing = newList();
   // list starts at zero, obviously
-  append(L, 0);
+  append(listing, 0);
 
   // same logic as Lex.java really
   for (i = 1; i < count; i++) {
-    moveFront(L);
+    moveFront(listing);
 
-    while (index(L) >= 0) {
+    while (index(listing) >= 0) {
       char *temp = Word[i];
 
       // move back until you reach a word lexicographically less
-      if (strncmp(Word[get(L)], temp, MAX_LEN) > 0) {
-        insertBefore(L, i);
+      if (strncmp(Word[get(listing)], temp, MAX_LEN) > 0) {
+        insertBefore(listing, i);
         break;
       }
-      moveNext(L);
+      moveNext(listing);
     }
     // if you reach the front of the list, stop there
-    if (index(L) < 0) {
-      append(L, i);
+    if (index(listing) < 0) {
+      append(listing, i);
     }
   }
 
