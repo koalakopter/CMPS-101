@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
   // for testing
   int track = 0;
   while (track < count) {
-    printf("%d\n", Word[get(listing)]);
+    printf("%s\n", Word[get(listing)]);
     moveNext(listing);
     track = track + 1;
   }

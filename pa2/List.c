@@ -58,10 +58,12 @@ void freeList(List *pL) {
     return;
   } else {
     while (length(*pL) > 0) {
-      deleteFront(*pL);
-      free(*pL);
-      *pL = NULL;
+      // delete nodes
+      deleteBack(*pL);
     }
+    // free list from memory
+    free(*pL);
+    *pL = NULL;
   }
 }
 
