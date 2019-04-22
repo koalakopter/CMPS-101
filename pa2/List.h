@@ -34,6 +34,7 @@ void delete (List L);
 
 // other operations
 // void printList(FILE *out, List L);
+void printList2(char *out, List L);
 List copyList(List L);
 
 #endif

@@ -29,7 +29,7 @@ typedef struct ListObject {
   Node cursor; // defines the cursor object
 
   // other data points
-  // int index;
+  int index;
   // int length;
 
 } ListObject;
@@ -74,7 +74,7 @@ List newList(void) {
   L->tail = NULL;
   L->cursor = NULL;
   // index defaults to -1, length is
-  // new_List->index = -1;
+  L->index = -1;
   // new_List->length = 0;
   return L;
 }
@@ -103,6 +103,7 @@ int length(List L) {
 
 // returns the index (position) of the cursor element
 int index(List L) {
+  // printf("\ncalling index\n");
   if (L == NULL) {
     printf("\nERROR: Calling function on undefined List\n");
     exit(1);
@@ -116,19 +117,21 @@ int index(List L) {
   }
   // otherwise, traverse the list until cursor is located
   NodeItem *pointer = L->head;
-  while (pointer->nextItem != NULL) {
+  while (pointer != NULL) {
     if (pointer == cursorRadar) {
-      break;
+      // printf("I hope I can get here!");
+      return cursorTracker;
     }
     pointer = pointer->nextItem;
     cursorTracker++;
   }
-  cursorTracker++;
-  return cursorTracker;
+  // pointer not found
+  return -1;
 }
 
 // like the above function, but returns the value of the cursor instead
 int get(List L) {
+  // printf("here?");
   // for undefined list
   if (L == NULL) {
     printf("\nERROR: Calling function on undefined List\n");
@@ -142,7 +145,7 @@ int get(List L) {
   NodeItem *pointer = L->head;
   while (pointer->nextItem != NULL) {
     if (pointer == L->cursor) {
-      break;
+      return pointer->data;
     }
     pointer = pointer->nextItem;
   }
@@ -231,7 +234,7 @@ void moveFront(List L) {
   }
 }
 
-// put cursor under front elements
+// put cursor under rear elements
 void moveBack(List L) {
   if (L == NULL) {
     printf("\nERROR: Calling function on undefined List\n");
@@ -240,6 +243,7 @@ void moveBack(List L) {
   if (length(L) <= 0) {
     return; // do nothing
   } else {
+    // printf("did i do this?");
     L->cursor = L->tail;
   }
 }
@@ -268,8 +272,8 @@ void moveNext(List L) {
     printf("\nERROR: Calling function on undefined List\n");
     exit(1);
   }
-  // if cursor at the front of the list, make cursor UNDEFINED
-  if (L->cursor == L->head) {
+  // if cursor at the end of the list, make cursor UNDEFINED
+  if (L->cursor == L->tail) {
     L->cursor = NULL;
   }
   // if cursor is undefined, do nothing
@@ -471,7 +475,7 @@ void printList(FILE *out, List L) {
 
 // print the list but not in a file (just for tests)
 void printList2(char *out, List L) {
-  printf("\nderp\n");
+  // printf("\nderp\n");
   if (L == NULL) {
     printf("\nERROR: Calling function on undefined List\n");
     exit(1);
