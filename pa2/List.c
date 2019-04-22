@@ -108,12 +108,12 @@ int index(List L) {
     printf("\nERROR: Calling function on undefined List\n");
     exit(1);
   }
-  int cursorTracker = -1;
+  int cursorTracker = 0;
   // if cursor undefined, return -1
   Node cursorRadar = NULL;
-  cursorRadar = L->head;
+  cursorRadar = L->cursor;
   if (cursorRadar == NULL) {
-    return cursorTracker;
+    return -1;
   }
   // otherwise, traverse the list until cursor is located
   NodeItem *pointer = L->head;
@@ -126,6 +126,7 @@ int index(List L) {
     cursorTracker++;
   }
   // pointer not found
+  printf("\npointer not found\n");
   return -1;
 }
 
@@ -468,7 +469,7 @@ void printList(FILE *out, List L) {
   }
   Node temp = L->head;
   while (temp != NULL) {
-    fprintf(out, "%d", temp->data);
+    fprintf(out, "%d ", temp->data);
     temp = temp->nextItem;
   }
 }
