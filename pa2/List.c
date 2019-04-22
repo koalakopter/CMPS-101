@@ -40,6 +40,7 @@ Node newNode(int data) {
   x->data = data;
   x->nextItem = NULL;
   x->prevItem = NULL;
+  return x;
 }
 
 // frees a Node from memory
@@ -47,6 +48,20 @@ void freeNode(Node *n) {
   if (*n != NULL && n != NULL) {
     free(*n);
     *n = NULL;
+  }
+}
+
+// frees a List from memory
+void freeList(List *pL) {
+  if (pL == NULL) {
+    printf("\nList already freed, no need to free\n");
+    return;
+  } else {
+    while (length(*pL) > 0) {
+      deleteFront(*pL);
+      free(*pL);
+      *pL = NULL;
+    }
   }
 }
 
@@ -389,7 +404,7 @@ void deleteFront(List L) {
 }
 
 // simply deletes the back element
-void delteBack(List L) {
+void deleteBack(List L) {
   if (L == NULL) {
     printf("\nERROR: Calling function on undefined List\n");
     exit(1);
@@ -456,6 +471,7 @@ void printList(FILE *out, List L) {
 
 // print the list but not in a file (just for tests)
 void printList2(char *out, List L) {
+  printf("\nderp\n");
   if (L == NULL) {
     printf("\nERROR: Calling function on undefined List\n");
     exit(1);

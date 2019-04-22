@@ -64,6 +64,7 @@ int main(int argc, char *argv[]) {
   append(listing, 0);
 
   // same logic as Lex.java really
+  int i = 0;
   for (i = 1; i < count; i++) {
     moveFront(listing);
 
@@ -83,7 +84,15 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  moveFront(L);
+  moveFront(listing);
+  // print the list
+  // for testing
+  int track = 0;
+  while (track < count) {
+    printf("%d\n", Word[get(listing)]);
+    moveNext(listing);
+    track = track + 1;
+  }
 
   /* close files */
   fclose(in);
