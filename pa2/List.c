@@ -56,7 +56,7 @@ void freeList(List *pL) {
   if (pL == NULL) {
     printf("\nList already freed, no need to free\n");
     return;
-  } else {
+  } else if (pL != NULL && *pL != NULL) {
     while (length(*pL) > 0) {
       // delete nodes
       deleteBack(*pL);
@@ -400,6 +400,8 @@ void deleteFront(List L) {
     printf("\nERROR: list length is zero\n");
     exit(1);
   }
+  // node to be freed from memory
+  Node toFree = L->head;
   // if the cursor is on the head, set it to NULL
   if (L->cursor == L->head) {
     L->cursor = NULL;
@@ -413,6 +415,7 @@ void deleteFront(List L) {
     L->head->nextItem->prevItem = NULL;
     L->head = L->head->nextItem;
   }
+  freeNode(&toFree);
 }
 
 // simply deletes the back element
@@ -425,6 +428,8 @@ void deleteBack(List L) {
     printf("\nERROR: list length is zero\n");
     exit(1);
   }
+  // node to be freed from memory
+  Node toFree = L->tail;
   // if the cursor is on the tail, set it to NULL
   if (L->cursor == L->tail) {
     L->cursor = NULL;
@@ -438,6 +443,7 @@ void deleteBack(List L) {
     L->tail->prevItem->nextItem = NULL;
     L->tail = L->tail->prevItem;
   }
+  freeNode(&toFree);
 }
 
 // deletes a node in the LIST
@@ -465,6 +471,7 @@ void delete (List L) {
     L->cursor->prevItem->nextItem = point->nextItem;
     L->cursor->nextItem->prevItem = point->prevItem;
     L->cursor = NULL;
+    freeNode(&point);
   }
 }
 
