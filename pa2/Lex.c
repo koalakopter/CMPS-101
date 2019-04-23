@@ -88,15 +88,21 @@ int main(int argc, char *argv[]) {
   // print the list
   // for testing
   int track = 0;
-  while (track < count) {
-    printf("%s\n", Word[get(listing)]);
+  printf("value of count is %d\n", count);
+  for (track = 0; track < count; track++) {
+    printf("%s on itration: %d\n", Word[get(listing)], track);
+    fprintf(out, "%s", Word[get(listing)]);
     moveNext(listing);
-    track = track + 1;
+    // track = track + 1;
   }
 
+  printf("leave the loop?");
   /* close files */
   fclose(in);
   fclose(out);
+  // free list
+  freeList(&listing);
+  printf("free the list?");
 
   return (0);
 }

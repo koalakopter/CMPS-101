@@ -497,6 +497,10 @@ List copyList(List L) {
     exit(1);
   }
   List out = newList();
+  // check for length 0 lists being copied for whatever reason
+  if (length(L) == 0) {
+    return out; // will just return an empty list (SAD!)
+  }
   Node copy = L->head;
   while (copy != NULL) {
     append(out, copy->data);
