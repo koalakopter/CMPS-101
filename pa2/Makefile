@@ -3,7 +3,6 @@
 #
 #       make                   makes Lex
 #       make ListClient        makes ListClient
-#		make Test			   makes Test	
 #------------------------------------------------------------------------------
 
 Lex : Lex.o List.o
@@ -17,12 +16,6 @@ ListClient: ListClient.o List.o
 
 ListClient.o : ListClient.c List.h
 	gcc -c -std=c99 -Wall ListClient.c
-	
-Test: Test.o List.o
-	gcc -o Test Test.o List.o
-	
-Test.o : Test.c List.h
-	gcc -c -std=c99 -Wall Test.c
 
 List.o : List.c List.h
 	gcc -c -std=c99 -Wall List.c

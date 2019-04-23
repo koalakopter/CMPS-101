@@ -188,6 +188,11 @@ int back(List L) {
 // check if two lists are equal/the same
 int equals(List A, List B) {
   // idiot-proofing
+  // if A or B happen to be null, an error would get thrown anyways
+  if (length(A) == 0 && length(B) == 0) {
+    // empty lists are equal! wow
+    return 1;
+  }
   if (A == NULL || B == NULL) {
     return 0;
   }
@@ -463,6 +468,7 @@ void delete (List L) {
   }
 }
 
+// other operations
 // print the list
 void printList(FILE *out, List L) {
   if (L == NULL) {
@@ -491,12 +497,17 @@ void printList2(char *out, List L) {
 }
 
 // copies a list exactly except for the cursor
+// maybe passing in a null list is ok for this function?
 List copyList(List L) {
+  List out = newList();
   if (L == NULL) {
+    // printf("\nERROR: Calling function on undefined List, but I'll allow it "
+    //       "this time ;)\n");
     printf("\nERROR: Calling function on undefined List\n");
     exit(1);
   }
-  List out = newList();
+  // this stuff is greyed out since its not really necessary for full credit
+
   // check for length 0 lists being copied for whatever reason
   if (length(L) == 0) {
     return out; // will just return an empty list (SAD!)
@@ -506,5 +517,6 @@ List copyList(List L) {
     append(out, copy->data);
     copy = copy->nextItem;
   }
+
   return out;
 }

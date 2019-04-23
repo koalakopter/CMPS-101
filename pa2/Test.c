@@ -6,9 +6,16 @@
 
 int main(int argc, char *argv[]) {
   // List L = newList();
-  List L = NULL;
+  List L = newList();
+  printf("dab dab dabs\n");
+  List F = newList();
+  List F = copyList(L);
+  append(L, 5);
   printf("dab dab dab\n");
-  int fugg = front(L);
-  // int fugg = 2;
-  printf("derp: %d\n", fugg);
+  append(L, 4);
+  moveFront(L);
+  printf("wheee %d", get(L));
+  // printf("Head is: %s", L->cursor->data);
+  printf("\ndone\n");
+  // printList2(L);
 }
