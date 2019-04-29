@@ -1,34 +1,34 @@
 /* JULIAN TO (jcto)
- * PA 1
+ * PA 3
  * CS 101
  * PROFESSOR TANTALO
  * SPRING 2019
  */
 
-//node object that forms the linked list
-class Node {
-	int data;
-	int position;
-	Node next;
-	Node prev;
-
-	// constructor: takes the first element in the array and stores it in the node
-	public Node(int input) {
-		this.data = input;
-		// this.position = 0;
-		this.next = null;
-		this.prev = null;
-	}
-}
-
 //Doubly-Linked List for use with Lex.java
-class List {
+public class List {
+	
+	//node object class that forms the linked list
+	private class Node {
+		Object data;
+		int position;
+		Node next;
+		Node prev;
+
+		// constructor: takes the first element in the array and stores it in the node
+		Node(Object input) {
+			this.data = input;
+			// this.position = 0;
+			this.next = null;
+			this.prev = null;
+		}
+	}
 	// front of the list
-	Node head;
+	private Node head;
 	// end of the list
-	Node tail;
+	private Node tail;
 	// cursor element
-	Node cursor;
+	private Node cursor;
 
 	// creates a new LinkedList
 	public List() {
@@ -77,7 +77,7 @@ class List {
 	}
 
 	// like the above function, but returns the element instead
-	public int get() {
+	Object get() {
 		if (this.length() <= 0 || this.index() < 0) {
 			throw new RuntimeException("LIST EMPTY OR CURSOR UNDEFINED");
 		}
@@ -91,7 +91,7 @@ class List {
 	}
 
 	// returns the int at the front of the list, else returns null
-	public int front() {
+	Object front() {
 		if (this.length() <= 0) {
 			throw new IllegalArgumentException("Length of List is zero!");
 		}
@@ -100,7 +100,7 @@ class List {
 
 	// traverse the list to the end and then get the end returns the string
 	// null if length is zero or less
-	public int back() {
+	Object back() {
 		if (this.length() <= 0) {
 			throw new IllegalArgumentException("Length of List is zero!");
 		}
@@ -208,6 +208,15 @@ class List {
 		if (this.length() == 0) {
 			head = freshNode;
 			tail = freshNode;
+		}
+		// if list length is 1 node, then have to make the current head the tail
+		else if (this.length() == 1) {
+			// inserts into the front by making the current head point to the inserted node
+			freshNode.next = head;
+			this.head.prev = freshNode;
+			// then, set head to the new Node
+			head = freshNode;
+			tail = freshNode.next;
 		}
 		// if list is non empty, put the element at the front
 		else {
@@ -377,6 +386,7 @@ class List {
 		return output;
 	}
 
+	/* DISABLED FOR PA 3
 	// copy the list into a new list
 	public List copy() {
 		List copiedList = new List();
@@ -407,4 +417,5 @@ class List {
 		tail = L.tail;
 		return this;
 	}
+	*/
 }
