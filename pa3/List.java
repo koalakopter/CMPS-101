@@ -28,7 +28,7 @@ public class List {
 	// end of the list
 	private Node tail;
 	// cursor element
-	private Node cursor;
+	Node cursor;
 
 	// creates a new LinkedList
 	public List() {
