@@ -195,7 +195,6 @@ public class Matrix {
 		for (int x = 0; x < this.size; x++) {
 			// if a row is empty in both matrices, skip that row
 			if (row[x].length() == 0 && M.row[x].length() == 0) {
-				System.out.println("yow");
 				continue;
 			}
 			row[x].moveFront();
@@ -203,20 +202,41 @@ public class Matrix {
 			// comparators for keeping track of columns
 			int compare1;
 			int compare2;
+			//System.out.println("ROW:" + x + " indices " + row[x].index() + " " + M.row[x].index());
+			//System.out.println(row[x].index() != -1 && M.row[x].index() != -1);
 			// traverse forward in each list until end is reached in BOTH
-			while (row[x].index() != -1 && M.row[x].index() != -1) {
-				System.out.println("ENTER " + x);
-				row[x].moveFront();
-				M.row[x].moveFront();
+			while (row[x].index() != -1 || M.row[x].index() != -1) {
+				//System.out.println("ENTER " + x);
 				compare1 = -1;
 				compare2 = -1;
+				
 				if (row[x].index() != -1) {
 					compare1 = ((Entry) row[x].get()).column;
 				}
 				if (M.row[x].index() != -1) {
 					compare2 = ((Entry) M.row[x].get()).column;
 				}
-				System.out.println("whee" + compare1 + " " + compare2);
+				
+				//System.out.println("whee " + compare1 + " " + compare2);
+				
+				//LIST ONLY EXISTS IN ONE ROW
+				//Matrix M lacks a row, append with this.Matrix entry
+				if(row[x].index() != -1 && M.row[x].index() == -1)
+				{
+					out.row[x].append(new Entry(compare1, ((Entry) row[x].get()).value));
+					row[x].moveNext();
+					out.nnz++;
+					continue;
+				}
+				//this.Matrix lacks a row, append with M.Matrix entry
+				if(row[x].index() == -1 && M.row[x].index() != -1)
+				{
+					out.row[x].append(new Entry(compare2, ((Entry) M.row[x].get()).value));
+					M.row[x].moveNext();
+					out.nnz++;
+					continue;
+				}
+				//LIST EXISTS IN BOTH ROWS
 				// case 1: Entry only exists in first matrix (at certain position)
 				if (compare1 < compare2) {
 					out.row[x].append(new Entry(compare1, ((Entry) row[x].get()).value));
