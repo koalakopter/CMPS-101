@@ -164,7 +164,8 @@ public class Matrix {
 		if (x == 0.0) {
 			return out;
 		}
-
+		double newVal;
+		int newCol;
 		for (int n = 0; n < size; n++) {
 			// first check if there is anything in that row
 			if (row[n].length() == 0) {
@@ -173,10 +174,14 @@ public class Matrix {
 			// if stuff exists in that row, continue down the list
 			row[n].moveFront();
 			while (row[n].index() >= 0) {
-				((Entry) row[n].get()).value *= x;
+				newCol = ((Entry) row[n].get()).column;
+				newVal = ((Entry) row[n].get()).value*x;
+				//((Entry) row[n].get()).value *= x;
+				out.row[n].append(new Entry(newCol, newVal));
 				row[n].moveNext();
 			}
 		}
+		out.nnz = this.nnz;
 		return out;
 	}
 
@@ -200,6 +205,7 @@ public class Matrix {
 			int compare2;
 			// traverse forward in each list until end is reached in BOTH
 			while (row[x].index() != -1 && M.row[x].index() != -1) {
+				System.out.println("ENTER " + x);
 				row[x].moveFront();
 				M.row[x].moveFront();
 				compare1 = -1;
@@ -213,14 +219,14 @@ public class Matrix {
 				System.out.println("whee" + compare1 + " " + compare2);
 				// case 1: Entry only exists in first matrix (at certain position)
 				if (compare1 < compare2) {
-					out.row[x].append(((Entry) row[x].get()).value);
+					out.row[x].append(new Entry(compare1, ((Entry) row[x].get()).value));
 					row[x].moveNext();
 					out.nnz++;
 					continue;
 				}
 				// case 2: Entry only exists in second matrix
 				else if (compare1 > compare2) {
-					out.row[x].append(((Entry) M.row[x].get()).value);
+					out.row[x].append(new Entry(compare2, ((Entry) M.row[x].get()).value));
 					M.row[x].moveNext();
 					out.nnz++;
 					continue;
@@ -234,8 +240,7 @@ public class Matrix {
 						continue;
 					}
 					// append with the combination of both entries
-					out.row[x].append(((Entry) row[x].get()).value + ((Entry) M.row[x].get()).value);
-
+					out.row[x].append(new Entry(compare1, ((Entry) row[x].get()).value + ((Entry) M.row[x].get()).value));
 					row[x].moveNext();
 					M.row[x].moveNext();
 					out.nnz++;
