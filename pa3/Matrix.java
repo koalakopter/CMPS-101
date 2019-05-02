@@ -21,7 +21,7 @@ public class Matrix {
 
 		// toString method to print out data
 		public String toString() {
-			String output = "(" + this.column + ", " + this.value + ")";  
+			String output = "(" + this.column + ", " + this.value + ")";
 			return output;
 		}
 
@@ -99,12 +99,8 @@ public class Matrix {
 	// changes the entry at the i-th row, j-th column of the matrix
 	void changeEntry(int i, int j, double x) {
 		// first check if the entry is in the matrix
-		if (i > this.size || j > this.size) {
+		if (i > this.size || j > this.size || i < 1 || j < 1) {
 			throw new RuntimeException("ENTRY ATTEMPTED TO BEING CHANGED IS NOT IN THE MATRIX");
-		}
-		// we don't care about zero entries
-		if (x == 0.0) {
-			return;
 		}
 		// navigate to proper position within the ith list
 		// so we end up on the jth position
@@ -112,25 +108,57 @@ public class Matrix {
 
 		// First, we check for empty list, if its empty, just make a new entry
 		if (row[i].length() == 0) {
+			// System.out.println("wheee");
 			row[i].prepend(new Entry(j, x));
+			this.nnz++;
 			return;
 		}
 
+		if (row[i].index() == -1) {
+			row[i].append(new Entry(j, x));
+			this.nnz++;
+			return;
+		}
 		// if the row does exist, we must do other stuff
 		// proceed down list until we reach the right column
-		while (((Entry) row[i].get()).column < j) {
+		while (row[i].index() > -1 && ((Entry) row[i].get()).column < j) {
+			System.out.println("cursor at: " + row[i].index());
 			row[i].moveNext();
 		}
 
+		// if the column exists, just change the value of that entry
+		if (row[i].index() != -1 && ((Entry) row[i].get()).column == j) {
+			// check if you are trying to change the value to zero
+			if (x == 0) {
+				row[i].delete();
+				this.nnz--;
+				return;
+			}
+			((Entry) row[i].get()).value = x;
+			this.nnz++;
+			return;
+		}
+		// ignore the rest if you try to change an empty spot to zero
+		if (x == 0) {
+			return;
+		}
 		// then check if you are on a valid spot
 		if (row[i].index() >= 0) {
 			row[i].insertBefore(new Entry(j, x));
+			this.nnz++;
 			return;
 		}
 		// if index is -1, then you must be off the edge of the list
 		else {
 			row[i].append(new Entry(j, x));
+			this.nnz++;
 			return;
 		}
+	}
+
+	Matrix scalarMult(double x) {
+		Matrix out = new Matrix(this.size);
+
+		return out;
 	}
 }
