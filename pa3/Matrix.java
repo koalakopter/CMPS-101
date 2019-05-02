@@ -94,8 +94,38 @@ public class Matrix {
 	public boolean equals(Object x) {
 		return true;
 	}
-
+	
 	// MANIPULATION PROCEDURES
+	// makes the matrix full of zeroes
+	void makeZero()
+	{
+		//delete every entry in each list
+		for (int x = 0; x < this.size; x++) {
+			while(row[x].length() >= 1)
+			{
+				row[x].deleteFront();
+			}
+		}
+		this.nnz = 0;
+	}
+	
+	//copies this matrix into a new Matrix
+	Matrix copy()
+	{
+		Matrix out = new Matrix(this.size);
+		for(int x = 0; x < this.size; x++)
+		{
+			row[x].moveFront();
+			while(row[x].index() > -1)
+			{
+				//append the copied list with each entry from the original Matrix
+				out.row[x].append(new Entry(((Entry) row[x].get()).column, ((Entry) row[x].get()).value));
+				row[x].moveNext();
+			}
+		}
+		out.nnz = this.nnz;
+		return out;
+	}
 	// changes the entry at the i-th row, j-th column of the matrix
 	void changeEntry(int i, int j, double x) {
 		// first check if the entry is in the matrix
@@ -268,6 +298,17 @@ public class Matrix {
 				}
 			}
 		}
+		return out;
+	}
+	//same thing as add, but do scalarMult M by -1
+	Matrix sub(Matrix M)
+	{
+		if (M.size != this.size) {
+			throw new RuntimeException("MATRICES MUST BE OF EQUAL SIZE");
+		}
+		Matrix out = new Matrix(this.size);
+		M = M.scalarMult(-1);
+		out = this.add(M);
 		return out;
 	}
 }
