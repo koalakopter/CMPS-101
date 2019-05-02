@@ -122,7 +122,7 @@ public class Matrix {
 		// if the row does exist, we must do other stuff
 		// proceed down list until we reach the right column
 		while (row[i].index() > -1 && ((Entry) row[i].get()).column < j) {
-			System.out.println("cursor at: " + row[i].index());
+			//System.out.println("cursor at: " + row[i].index());
 			row[i].moveNext();
 		}
 
@@ -130,6 +130,7 @@ public class Matrix {
 		if (row[i].index() != -1 && ((Entry) row[i].get()).column == j) {
 			// check if you are trying to change the value to zero
 			if (x == 0) {
+				System.out.println("cursor at: " + row[i].index());
 				row[i].delete();
 				this.nnz--;
 				return;

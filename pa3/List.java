@@ -201,7 +201,7 @@ public class List {
 	}
 
 	// adds a node to the front of the list
-	void prepend(int data) {
+	void prepend(Object data) {
 		// makes a new node
 		Node freshNode = new Node(data);
 		// if list is empty, make it the first element
@@ -229,7 +229,7 @@ public class List {
 	}
 
 	// adds a node to the end of the list
-	void append(int data) {
+	void append(Object data) {
 		// make a new node
 		Node freshNode = new Node(data);
 		if (this.length() == 0) {
@@ -248,7 +248,7 @@ public class List {
 	}
 
 	// adds an element before the current cursor's position
-	void insertBefore(int data) {
+	void insertBefore(Object data) {
 		// check for prereqs
 		if (this.length() <= 0 || this.index() < 0) {
 			throw new IllegalArgumentException("Cursor undefined or invalid List!");
@@ -277,7 +277,7 @@ public class List {
 	}
 
 	// adds an element after the current cursor's position
-	void insertAfter(int data) {
+	void insertAfter(Object data) {
 		if (this.length() <= 0 || this.index() < 0) {
 			throw new IllegalArgumentException("Cursor undefined or invalid List!");
 		}
@@ -348,16 +348,12 @@ public class List {
 		Node point = cursor;
 		// delete the links in the list that connect cursor to the rest of the list
 		if (point == head) {
-			head = cursor.next;
-			head.prev = null;
-			cursor = null;
+			this.deleteFront();
 			return;
 		}
 		if (point == tail) {
 			// System.out.println("here?");
-			tail = cursor.prev;
-			tail.next = null;
-			cursor = null;
+			this.deleteBack();
 			return;
 		}
 		if (point != head && point != tail) {
