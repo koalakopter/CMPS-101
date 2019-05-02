@@ -122,7 +122,7 @@ public class Matrix {
 		// if the row does exist, we must do other stuff
 		// proceed down list until we reach the right column
 		while (row[i].index() > -1 && ((Entry) row[i].get()).column < j) {
-			//System.out.println("cursor at: " + row[i].index());
+			// System.out.println("cursor at: " + row[i].index());
 			row[i].moveNext();
 		}
 
@@ -157,9 +157,92 @@ public class Matrix {
 		}
 	}
 
+	// multiplies a matrix by a scalar, returns a matrix
 	Matrix scalarMult(double x) {
 		Matrix out = new Matrix(this.size);
+		// BUT: IF X = 0, return a blank, sad matrix
+		if (x == 0.0) {
+			return out;
+		}
 
+		for (int n = 0; n < size; n++) {
+			// first check if there is anything in that row
+			if (row[n].length() == 0) {
+				continue;
+			}
+			// if stuff exists in that row, continue down the list
+			row[n].moveFront();
+			while (row[n].index() >= 0) {
+				((Entry) row[n].get()).value *= x;
+				row[n].moveNext();
+			}
+		}
+		return out;
+	}
+
+	// adds two matrices together
+	Matrix add(Matrix M) {
+		Matrix out = new Matrix(this.size);
+		if (M.size != this.size) {
+			throw new RuntimeException("MATRICES MUST BE OF EQUAL SIZE");
+		}
+		// for loop, go line by line
+		for (int x = 0; x < this.size; x++) {
+			// if a row is empty in both matrices, skip that row
+			if (row[x].length() == 0 && M.row[x].length() == 0) {
+				System.out.println("yow");
+				continue;
+			}
+			row[x].moveFront();
+			M.row[x].moveFront();
+			// comparators for keeping track of columns
+			int compare1;
+			int compare2;
+			// traverse forward in each list until end is reached in BOTH
+			while (row[x].index() != -1 && M.row[x].index() != -1) {
+				row[x].moveFront();
+				M.row[x].moveFront();
+				compare1 = -1;
+				compare2 = -1;
+				if (row[x].index() != -1) {
+					compare1 = ((Entry) row[x].get()).column;
+				}
+				if (M.row[x].index() != -1) {
+					compare2 = ((Entry) M.row[x].get()).column;
+				}
+				System.out.println("whee" + compare1 + " " + compare2);
+				// case 1: Entry only exists in first matrix (at certain position)
+				if (compare1 < compare2) {
+					out.row[x].append(((Entry) row[x].get()).value);
+					row[x].moveNext();
+					out.nnz++;
+					continue;
+				}
+				// case 2: Entry only exists in second matrix
+				else if (compare1 > compare2) {
+					out.row[x].append(((Entry) M.row[x].get()).value);
+					M.row[x].moveNext();
+					out.nnz++;
+					continue;
+				}
+				// case 3: Entry exists in both matrices
+				else {
+					// if the end result happens to be zero, we ignore it
+					if (((Entry) row[x].get()).value + ((Entry) M.row[x].get()).value == 0.0) {
+						row[x].moveNext();
+						M.row[x].moveNext();
+						continue;
+					}
+					// append with the combination of both entries
+					out.row[x].append(((Entry) row[x].get()).value + ((Entry) M.row[x].get()).value);
+
+					row[x].moveNext();
+					M.row[x].moveNext();
+					out.nnz++;
+					continue;
+				}
+			}
+		}
 		return out;
 	}
 }
