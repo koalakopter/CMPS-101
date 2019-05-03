@@ -311,4 +311,88 @@ public class Matrix {
 		out = this.add(M);
 		return out;
 	}
+	
+	//returns the transpose of the matrix, which is the matrix with its row/cols swapped
+	Matrix transpose()
+	{
+		Matrix out = new Matrix(this.size);
+		//like the copy function, but rows and columns are swapped
+		for(int x = 0; x < this.size; x++)
+		{
+			row[x].moveFront();
+			while(row[x].index() > -1)
+			{
+				//append the copied list with each entry from the original Matrix
+				out.row[((Entry) row[x].get()).column].append(new Entry(x, ((Entry) row[x].get()).value));
+				row[x].moveNext();
+			}
+		}
+		out.nnz = this.nnz;
+		return out;
+	}
+	
+	//multiplies two matrices together
+	Matrix mult(Matrix M)
+	{
+		//input matrices must be of the same size
+		if (M.size != this.size) {
+			throw new RuntimeException("MATRICES MUST BE OF EQUAL SIZE");
+		}
+		Matrix out = new Matrix(this.size);
+		//take the transpose of Matrix M to simplify the calculations
+		M = M.transpose();
+		//since the 2nd matrix has been transposed
+		//we can just take the dot product of each row combination
+		//ROW
+		double dotProd;
+		for(int x = 0; x < this.size; x++)
+		{
+			//COLUMN
+			for(int y = 0; y < this.size; y++)
+			{
+				dotProd = dot(row[x], M.row[y]);
+				if(dotProd != 0)
+				{
+					out.row[x].append(new Entry(y, dotProd));
+					out.nnz++;
+				}
+			}
+		}
+		return out;
+	}
+	//returns the dot product of 2 vectors (or lists in this case)
+	private static double dot(List P, List Q)
+	{
+		double result = 0;
+		int colP, colQ;
+		//dot product of a zero vector + any other vector is 0
+		if(P.length() == 0 || Q.length() == 0)
+		{
+			return 0;
+		}
+		//function here is pretty similar to add, where we "walk" up both lists, looking for matching columns
+		P.moveFront();
+		Q.moveFront();
+		//if cursor reaches the end of either list, that must mean there are no more matching columns
+		while(P.index() != -1 && Q.index() != -1)
+		{
+			colP = ((Entry)P.get()).column;
+			colQ = ((Entry)Q.get()).column;
+			if(colP < colQ)
+			{
+				P.moveNext();
+			}
+			else if(colP > colQ)
+			{
+				Q.moveNext();
+			}
+			//if columns are equal, multiply the values and add to the running sum
+			else {
+				result = result + ((Entry)P.get()).value*((Entry)Q.get()).value;
+				P.moveNext();
+				Q.moveNext();
+			}
+		}
+		return result;
+	}
 }
