@@ -25,15 +25,13 @@ public class Matrix {
 			return output;
 		}
 
-		// equals method to check equality
+		// equals method to check equality (do I need this???)
 		public boolean equals(Object x) {
-			boolean eq = false;
-			Entry that;
-			if (x instanceof Entry) {
-				that = (Entry) x;
-				eq = (this.column == that.column && this.value == that.value);
+			if(((Entry)x).column == this.column && ((Entry)x).value == this.value)
+			{
+				return true;
 			}
-			return eq;
+			return false;
 		}
 	}
 
@@ -51,7 +49,7 @@ public class Matrix {
 		row = new List[input + 1];
 		this.size = input;
 		// set up inner lists
-		for (int x = 0; x < input; x++) {
+		for (int x = 1; x <= input; x++) {
 			row[x] = new List();
 		}
 		this.nnz = 0;
@@ -61,12 +59,12 @@ public class Matrix {
 	// prints out the content of the matrix
 	public String toString() {
 		String output = "";
-		for (int x = 0; x < size; x++) {
+		for (int x = 1; x <= size; x++) {
 			// move the cursor to the front of the list
 			row[x].moveFront();
 			// check for an empty list
 			if (row[x].length() == 0) {
-				continue; // if row is empty, break, since we don't care about non zero entries
+				continue; // if row is empty, continue, since we don't care about non zero entries
 			}
 			output = output + x + ": "; // row header
 			output = output + row[x] + "\n";
@@ -90,8 +88,24 @@ public class Matrix {
 		return this.nnz;
 	}
 
-	// checks for equality of two matrices
+	// checks for equality of two matrices (just in case I need it later maybe)
 	public boolean equals(Object x) {
+		if(this.size != ((Matrix)x).size)
+		{
+			return false;
+		}
+		for(int i = 1; i <= this.size; i++)
+		{
+			row[i].moveFront();
+			while(this.row[i].index() != -1)
+			{
+				if(((Entry)row[i].get() != ((Matrix)x).row[i].get()))
+				{
+					return false;
+				}
+				row[i].moveNext();
+			}
+		}
 		return true;
 	}
 	
@@ -100,7 +114,7 @@ public class Matrix {
 	void makeZero()
 	{
 		//delete every entry in each list
-		for (int x = 0; x < this.size; x++) {
+		for (int x = 1; x < this.size; x++) {
 			while(row[x].length() >= 1)
 			{
 				row[x].deleteFront();
@@ -113,7 +127,7 @@ public class Matrix {
 	Matrix copy()
 	{
 		Matrix out = new Matrix(this.size);
-		for(int x = 0; x < this.size; x++)
+		for(int x = 1; x <= this.size; x++)
 		{
 			row[x].moveFront();
 			while(row[x].index() > -1)
@@ -123,6 +137,8 @@ public class Matrix {
 				row[x].moveNext();
 			}
 		}
+		//copy the paramters too
+		out.size = this.size;
 		out.nnz = this.nnz;
 		return out;
 	}
@@ -196,7 +212,7 @@ public class Matrix {
 		}
 		double newVal;
 		int newCol;
-		for (int n = 0; n < size; n++) {
+		for (int n = 1; n <= size; n++) {
 			// first check if there is anything in that row
 			if (row[n].length() == 0) {
 				continue;
@@ -222,7 +238,7 @@ public class Matrix {
 			throw new RuntimeException("MATRICES MUST BE OF EQUAL SIZE");
 		}
 		// for loop, go line by line
-		for (int x = 0; x < this.size; x++) {
+		for (int x = 1; x <= this.size; x++) {
 			// if a row is empty in both matrices, skip that row
 			if (row[x].length() == 0 && M.row[x].length() == 0) {
 				continue;
@@ -317,7 +333,7 @@ public class Matrix {
 	{
 		Matrix out = new Matrix(this.size);
 		//like the copy function, but rows and columns are swapped
-		for(int x = 0; x < this.size; x++)
+		for(int x = 1; x <= this.size; x++)
 		{
 			row[x].moveFront();
 			while(row[x].index() > -1)
@@ -345,10 +361,10 @@ public class Matrix {
 		//we can just take the dot product of each row combination
 		//ROW
 		double dotProd;
-		for(int x = 0; x < this.size; x++)
+		for(int x = 1; x <= this.size; x++)
 		{
 			//COLUMN
-			for(int y = 0; y < this.size; y++)
+			for(int y = 1; y <= this.size; y++)
 			{
 				dotProd = dot(row[x], M.row[y]);
 				if(dotProd != 0)
