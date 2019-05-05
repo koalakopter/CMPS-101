@@ -27,8 +27,7 @@ public class Matrix {
 
 		// equals method to check equality (do I need this???)
 		public boolean equals(Object x) {
-			if(((Entry)x).column == this.column && ((Entry)x).value == this.value)
-			{
+			if (((Entry) x).column == this.column && ((Entry) x).value == this.value) {
 				return true;
 			}
 			return false;
@@ -90,58 +89,46 @@ public class Matrix {
 
 	// checks for equality of two matrices (just in case I need it later maybe)
 	public boolean equals(Object x) {
-		if(this.size != ((Matrix)x).size)
-		{
+		if (this.size != ((Matrix) x).size) {
 			return false;
 		}
-		for(int i = 1; i <= this.size; i++)
-		{
-			row[i].moveFront();
-			while(this.row[i].index() != -1)
-			{
-				if(((Entry)row[i].get() != ((Matrix)x).row[i].get()))
-				{
-					return false;
-				}
-				row[i].moveNext();
+		for (int i = 1; i <= this.size; i++) {
+			if (!(row[i].equals(((Matrix) x).row[i]))) {
+				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	// MANIPULATION PROCEDURES
 	// makes the matrix full of zeroes
-	void makeZero()
-	{
-		//delete every entry in each list
+	void makeZero() {
+		// delete every entry in each list
 		for (int x = 1; x < this.size; x++) {
-			while(row[x].length() >= 1)
-			{
+			while (row[x].length() >= 1) {
 				row[x].deleteFront();
 			}
 		}
 		this.nnz = 0;
 	}
-	
-	//copies this matrix into a new Matrix
-	Matrix copy()
-	{
+
+	// copies this matrix into a new Matrix
+	Matrix copy() {
 		Matrix out = new Matrix(this.size);
-		for(int x = 1; x <= this.size; x++)
-		{
+		for (int x = 1; x <= this.size; x++) {
 			row[x].moveFront();
-			while(row[x].index() > -1)
-			{
-				//append the copied list with each entry from the original Matrix
+			while (row[x].index() > -1) {
+				// append the copied list with each entry from the original Matrix
 				out.row[x].append(new Entry(((Entry) row[x].get()).column, ((Entry) row[x].get()).value));
 				row[x].moveNext();
 			}
 		}
-		//copy the paramters too
+		// copy the paramters too
 		out.size = this.size;
 		out.nnz = this.nnz;
 		return out;
 	}
+
 	// changes the entry at the i-th row, j-th column of the matrix
 	void changeEntry(int i, int j, double x) {
 		// first check if the entry is in the matrix
@@ -152,9 +139,12 @@ public class Matrix {
 		// so we end up on the jth position
 		row[i].moveFront();
 
-		// First, we check for empty list, if its empty, just make a new entry
+		// First, we check for empty list, if its empty, just make a new entry (unless
+		// its zero)
 		if (row[i].length() == 0) {
-			// System.out.println("wheee");
+			if (x == 0) {
+				return;
+			}
 			row[i].prepend(new Entry(j, x));
 			this.nnz++;
 			return;
@@ -168,7 +158,6 @@ public class Matrix {
 		// if the row does exist, we must do other stuff
 		// proceed down list until we reach the right column
 		while (row[i].index() > -1 && ((Entry) row[i].get()).column < j) {
-			// System.out.println("cursor at: " + row[i].index());
 			row[i].moveNext();
 		}
 
@@ -176,7 +165,6 @@ public class Matrix {
 		if (row[i].index() != -1 && ((Entry) row[i].get()).column == j) {
 			// check if you are trying to change the value to zero
 			if (x == 0) {
-				System.out.println("cursor at: " + row[i].index());
 				row[i].delete();
 				this.nnz--;
 				return;
@@ -208,6 +196,7 @@ public class Matrix {
 		Matrix out = new Matrix(this.size);
 		// BUT: IF X = 0, return a blank, sad matrix
 		if (x == 0.0) {
+			this.makeZero();
 			return out;
 		}
 		double newVal;
@@ -221,12 +210,14 @@ public class Matrix {
 			row[n].moveFront();
 			while (row[n].index() >= 0) {
 				newCol = ((Entry) row[n].get()).column;
-				newVal = ((Entry) row[n].get()).value*x;
-				//((Entry) row[n].get()).value *= x;
+				newVal = ((Entry) row[n].get()).value * x;
+				// ((Entry) row[n].get()).value *= x;
 				out.row[n].append(new Entry(newCol, newVal));
 				row[n].moveNext();
 			}
 		}
+		// can never multiply a*b = 0 if b,a != 0
+		// thus nnz is always the same
 		out.nnz = this.nnz;
 		return out;
 	}
@@ -234,55 +225,52 @@ public class Matrix {
 	// adds two matrices together
 	Matrix add(Matrix M) {
 		Matrix out = new Matrix(this.size);
-		if (M.size != this.size) {
+		// temp Matrix
+		Matrix temp = M.copy();
+		if (temp.size != this.size) {
 			throw new RuntimeException("MATRICES MUST BE OF EQUAL SIZE");
 		}
 		// for loop, go line by line
 		for (int x = 1; x <= this.size; x++) {
 			// if a row is empty in both matrices, skip that row
-			if (row[x].length() == 0 && M.row[x].length() == 0) {
+			if (row[x].length() == 0 && temp.row[x].length() == 0) {
 				continue;
 			}
 			row[x].moveFront();
-			M.row[x].moveFront();
+			temp.row[x].moveFront();
 			// comparators for keeping track of columns
 			int compare1;
 			int compare2;
-			//System.out.println("ROW:" + x + " indices " + row[x].index() + " " + M.row[x].index());
-			//System.out.println(row[x].index() != -1 && M.row[x].index() != -1);
 			// traverse forward in each list until end is reached in BOTH
-			while (row[x].index() != -1 || M.row[x].index() != -1) {
-				//System.out.println("ENTER " + x);
+			while (row[x].index() != -1 || temp.row[x].index() != -1) {
 				compare1 = -1;
 				compare2 = -1;
-				
+
 				if (row[x].index() != -1) {
 					compare1 = ((Entry) row[x].get()).column;
 				}
-				if (M.row[x].index() != -1) {
-					compare2 = ((Entry) M.row[x].get()).column;
+				if (temp.row[x].index() != -1) {
+					compare2 = ((Entry) temp.row[x].get()).column;
 				}
-				
-				//System.out.println("whee " + compare1 + " " + compare2);
-				
-				//LIST ONLY EXISTS IN ONE ROW
-				//Matrix M lacks a row, append with this.Matrix entry
-				if(row[x].index() != -1 && M.row[x].index() == -1)
-				{
+
+				// LIST ONLY EXISTS IN ONE ROW
+				// Matrix M lacks a row, append with this.Matrix entry
+				if (row[x].index() != -1 && temp.row[x].index() == -1) {
 					out.row[x].append(new Entry(compare1, ((Entry) row[x].get()).value));
 					row[x].moveNext();
 					out.nnz++;
 					continue;
 				}
-				//this.Matrix lacks a row, append with M.Matrix entry
-				if(row[x].index() == -1 && M.row[x].index() != -1)
-				{
-					out.row[x].append(new Entry(compare2, ((Entry) M.row[x].get()).value));
-					M.row[x].moveNext();
+
+				// this.Matrix lacks a row, append with M.Matrix entry
+				if (row[x].index() == -1 && temp.row[x].index() != -1) {
+					out.row[x].append(new Entry(compare2, ((Entry) temp.row[x].get()).value));
+					temp.row[x].moveNext();
 					out.nnz++;
 					continue;
 				}
-				//LIST EXISTS IN BOTH ROWS
+				// System.out.println("compare " + compare1 + " " + compare2);
+				// LIST EXISTS IN BOTH ROWS
 				// case 1: Entry only exists in first matrix (at certain position)
 				if (compare1 < compare2) {
 					out.row[x].append(new Entry(compare1, ((Entry) row[x].get()).value));
@@ -292,23 +280,25 @@ public class Matrix {
 				}
 				// case 2: Entry only exists in second matrix
 				else if (compare1 > compare2) {
-					out.row[x].append(new Entry(compare2, ((Entry) M.row[x].get()).value));
-					M.row[x].moveNext();
+					out.row[x].append(new Entry(compare2, ((Entry) temp.row[x].get()).value));
+					temp.row[x].moveNext();
 					out.nnz++;
 					continue;
 				}
 				// case 3: Entry exists in both matrices
 				else {
 					// if the end result happens to be zero, we ignore it
-					if (((Entry) row[x].get()).value + ((Entry) M.row[x].get()).value == 0.0) {
+					double koala = ((Entry) row[x].get()).value + ((Entry) temp.row[x].get()).value;
+					if (koala == 0.0) {
 						row[x].moveNext();
-						M.row[x].moveNext();
+						temp.row[x].moveNext();
 						continue;
 					}
+					// System.out.println("values of more fun: " + koala);
 					// append with the combination of both entries
-					out.row[x].append(new Entry(compare1, ((Entry) row[x].get()).value + ((Entry) M.row[x].get()).value));
+					out.row[x].append(new Entry(compare1, koala));
 					row[x].moveNext();
-					M.row[x].moveNext();
+					temp.row[x].moveNext();
 					out.nnz++;
 					continue;
 				}
@@ -316,29 +306,28 @@ public class Matrix {
 		}
 		return out;
 	}
-	//same thing as add, but do scalarMult M by -1
-	Matrix sub(Matrix M)
-	{
+
+	// same thing as add, but do scalarMult M by -1
+	Matrix sub(Matrix M) {
 		if (M.size != this.size) {
 			throw new RuntimeException("MATRICES MUST BE OF EQUAL SIZE");
 		}
 		Matrix out = new Matrix(this.size);
-		M = M.scalarMult(-1);
-		out = this.add(M);
+		Matrix temp = this.copy();
+		temp = (temp.scalarMult(-1));
+		out = this.add(temp);
 		return out;
 	}
-	
-	//returns the transpose of the matrix, which is the matrix with its row/cols swapped
-	Matrix transpose()
-	{
+
+	// returns the transpose of the matrix, which is the matrix with its row/cols
+	// swapped
+	Matrix transpose() {
 		Matrix out = new Matrix(this.size);
-		//like the copy function, but rows and columns are swapped
-		for(int x = 1; x <= this.size; x++)
-		{
+		// like the copy function, but rows and columns are swapped
+		for (int x = 1; x <= this.size; x++) {
 			row[x].moveFront();
-			while(row[x].index() > -1)
-			{
-				//append the copied list with each entry from the original Matrix
+			while (row[x].index() > -1) {
+				// append the copied list with each entry from the original Matrix
 				out.row[((Entry) row[x].get()).column].append(new Entry(x, ((Entry) row[x].get()).value));
 				row[x].moveNext();
 			}
@@ -346,29 +335,25 @@ public class Matrix {
 		out.nnz = this.nnz;
 		return out;
 	}
-	
-	//multiplies two matrices together
-	Matrix mult(Matrix M)
-	{
-		//input matrices must be of the same size
+
+	// multiplies two matrices together
+	Matrix mult(Matrix M) {
+		// input matrices must be of the same size
 		if (M.size != this.size) {
 			throw new RuntimeException("MATRICES MUST BE OF EQUAL SIZE");
 		}
 		Matrix out = new Matrix(this.size);
-		//take the transpose of Matrix M to simplify the calculations
+		// take the transpose of Matrix M to simplify the calculations
 		M = M.transpose();
-		//since the 2nd matrix has been transposed
-		//we can just take the dot product of each row combination
-		//ROW
+		// since the 2nd matrix has been transposed
+		// we can just take the dot product of each row combination
+		// ROW
 		double dotProd;
-		for(int x = 1; x <= this.size; x++)
-		{
-			//COLUMN
-			for(int y = 1; y <= this.size; y++)
-			{
+		for (int x = 1; x <= this.size; x++) {
+			// COLUMN
+			for (int y = 1; y <= this.size; y++) {
 				dotProd = dot(row[x], M.row[y]);
-				if(dotProd != 0)
-				{
+				if (dotProd != 0) {
 					out.row[x].append(new Entry(y, dotProd));
 					out.nnz++;
 				}
@@ -376,35 +361,32 @@ public class Matrix {
 		}
 		return out;
 	}
-	//returns the dot product of 2 vectors (or lists in this case)
-	private static double dot(List P, List Q)
-	{
+
+	// returns the dot product of 2 vectors (or lists in this case)
+	private static double dot(List P, List Q) {
 		double result = 0;
 		int colP, colQ;
-		//dot product of a zero vector + any other vector is 0
-		if(P.length() == 0 || Q.length() == 0)
-		{
+		// dot product of a zero vector + any other vector is 0
+		if (P.length() == 0 || Q.length() == 0) {
 			return 0;
 		}
-		//function here is pretty similar to add, where we "walk" up both lists, looking for matching columns
+		// function here is pretty similar to add, where we "walk" up both lists,
+		// looking for matching columns
 		P.moveFront();
 		Q.moveFront();
-		//if cursor reaches the end of either list, that must mean there are no more matching columns
-		while(P.index() != -1 && Q.index() != -1)
-		{
-			colP = ((Entry)P.get()).column;
-			colQ = ((Entry)Q.get()).column;
-			if(colP < colQ)
-			{
+		// if cursor reaches the end of either list, that must mean there are no more
+		// matching columns
+		while (P.index() != -1 && Q.index() != -1) {
+			colP = ((Entry) P.get()).column;
+			colQ = ((Entry) Q.get()).column;
+			if (colP < colQ) {
 				P.moveNext();
-			}
-			else if(colP > colQ)
-			{
+			} else if (colP > colQ) {
 				Q.moveNext();
 			}
-			//if columns are equal, multiply the values and add to the running sum
+			// if columns are equal, multiply the values and add to the running sum
 			else {
-				result = result + ((Entry)P.get()).value*((Entry)Q.get()).value;
+				result = result + ((Entry) P.get()).value * ((Entry) Q.get()).value;
 				P.moveNext();
 				Q.moveNext();
 			}
