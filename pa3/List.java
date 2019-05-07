@@ -390,6 +390,7 @@ public class List {
 			start = start.next;
 		}
 		output = output + start.data + " ";
+		output = output.trim();
 		return output;
 	}
 

@@ -67,10 +67,8 @@ public class Matrix {
 			}
 			output = output + x + ": "; // row header
 			output = output + row[x] + "\n";
-
 		}
 		return output;
-
 	}
 
 	// ACCESS FUNCTIONS
