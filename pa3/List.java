@@ -7,8 +7,8 @@
 
 //Doubly-Linked List for use with Lex.java
 public class List {
-	
-	//node object class that forms the linked list
+
+	// node object class that forms the linked list
 	private class Node {
 		Object data;
 		int position;
@@ -22,7 +22,17 @@ public class List {
 			this.next = null;
 			this.prev = null;
 		}
+
+		public boolean equals(Object N) {
+			Node M = (Node) N;
+			boolean result = true;
+			if (!(this.data.equals(M))) {
+				result = false;
+			}
+			return result;
+		}
 	}
+
 	// front of the list
 	private Node head;
 	// end of the list
@@ -112,26 +122,28 @@ public class List {
 	}
 
 	// checks if two lists are equal
-	boolean equals(List L) {
+	public boolean equals(Object L) {
 		// used to traverse the array and compare values
-		Node start = head;
-		Node start2 = L.head;
+		List compare = (List) L;
+		Node start = this.head;
+		Node start2 = compare.head;
 		// checks for same length
-		if (this.length() != L.length()) {
+		if (this.length() != compare.length()) {
 			return false;
 		}
 		// two empty lists are equal, I presume
-		if (this.length() == 0 && L.length() == 0) {
+		if (this.length() == 0 && compare.length() == 0) {
 			return true;
 		}
-		if (start.data != start2.data) {
+		//check the head of each list
+		if (start.data.equals(start2.data) != true) {
 			return false;
 		}
 		while (start.next != null || start2.next != null) {
 			start = start.next;
 			start2 = start2.next;
 			// checks for equality of elements
-			if (start.data != start2.data) {
+			if (start.data.equals(start2.data) != true) {
 				return false;
 			}
 		}
@@ -173,13 +185,13 @@ public class List {
 
 	// puts cursor on the element one previous to the current
 	void movePrev() {
-		// if cursor at the front make it undefined
-		if (cursor == head) {
-			cursor = null;
-		}
 		// if cursor is undefined
-		else if (this.index() == -1) {
-			// do nothing
+		if (this.index() == -1) {
+			// do nothing !
+		}
+		// if cursor at the front make it undefined
+		else if (cursor == head) {
+			cursor = null;
 		} else {
 			cursor = cursor.prev;
 		}
@@ -187,14 +199,13 @@ public class List {
 
 	// puts cursor on the element one after the current
 	void moveNext() {
-		// if cursor at the end, make it undefined too
-		if (cursor.next == null) {
-			cursor = null;
+		// if cursor is undefined
+		if (this.index() == -1) {
+			// do nothing
 		}
 		// if cursor is undefined
-		else if (this.index() == -1) {
-			// do nothing
-			// System.out.println("am i here?");
+		else if (cursor == tail) {
+			cursor = null;
 		} else {
 			cursor = cursor.next;
 		}
@@ -382,36 +393,19 @@ public class List {
 		return output;
 	}
 
-	/* DISABLED FOR PA 3
-	// copy the list into a new list
-	public List copy() {
-		List copiedList = new List();
-		// if length of current list is zero, do nothing
-		if (this.length() == 0) {
-			return copiedList;
-		}
-		Node start = head;
-		// copiedList.head = start;
-		// traverse the list, and copy the elements into a new list
-		while (start.next != null) {
-			copiedList.append(start.data);
-			start = start.next;
-		}
-		copiedList.append(start.data);
-		// copiedList.tail = start;
-		return copiedList;
-	}
-
-	// joins two lists together, with the input List being on the end
-	// note: not tested
-	List concat(List L) {
-		// List newList = new List();
-		tail.next = L.head;
-		L.head.prev = tail;
-
-		// change the tail to L's tail
-		tail = L.tail;
-		return this;
-	}
-	*/
+	/*
+	 * DISABLED FOR PA 3 // copy the list into a new list public List copy() { List
+	 * copiedList = new List(); // if length of current list is zero, do nothing if
+	 * (this.length() == 0) { return copiedList; } Node start = head; //
+	 * copiedList.head = start; // traverse the list, and copy the elements into a
+	 * new list while (start.next != null) { copiedList.append(start.data); start =
+	 * start.next; } copiedList.append(start.data); // copiedList.tail = start;
+	 * return copiedList; }
+	 * 
+	 * // joins two lists together, with the input List being on the end // note:
+	 * not tested List concat(List L) { // List newList = new List(); tail.next =
+	 * L.head; L.head.prev = tail;
+	 * 
+	 * // change the tail to L's tail tail = L.tail; return this; }
+	 */
 }

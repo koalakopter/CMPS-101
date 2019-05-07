@@ -89,11 +89,13 @@ public class Matrix {
 
 	// checks for equality of two matrices (just in case I need it later maybe)
 	public boolean equals(Object x) {
+		Matrix compare = (Matrix) x;
 		if (this.size != ((Matrix) x).size) {
 			return false;
 		}
 		for (int i = 1; i <= this.size; i++) {
-			if (!(row[i].equals(((Matrix) x).row[i]))) {
+			if (this.row[i].equals(compare.row[i]) != true) {
+				//System.out.println(i);
 				return false;
 			}
 		}
