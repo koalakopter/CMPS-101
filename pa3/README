@@ -10,8 +10,6 @@ Matrix.java: Provides a Matrix ADT that implements all of the requested function
 
 MatrixTest.java: A case-switch based testing file that I wrote to test extra stuff in addition to the provided MatrixClient file.
 
-MatrixClient.java: A provided test case file that implements some Matrix functions.'
-
 ListTest.java: A file used from PA1 to test the List class.
 
 Sparse.java: Main class that reads an input file, and makes two matrices from that file. Then, a select few algorithims are performed on that Matrix and the result is outputted to an output file. Requires two arguments, an input and output.
