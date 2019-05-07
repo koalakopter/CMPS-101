@@ -315,7 +315,7 @@ public class Matrix {
 			throw new RuntimeException("MATRICES MUST BE OF EQUAL SIZE");
 		}
 		Matrix out = new Matrix(this.size);
-		Matrix temp = this.copy();
+		Matrix temp = M.copy();
 		temp = (temp.scalarMult(-1));
 		out = this.add(temp);
 		return out;
@@ -330,7 +330,8 @@ public class Matrix {
 			row[x].moveFront();
 			while (row[x].index() > -1) {
 				// append the copied list with each entry from the original Matrix
-				out.row[((Entry) row[x].get()).column].append(new Entry(x, ((Entry) row[x].get()).value));
+				//out.row[((Entry) row[x].get()).column].append(new Entry(x, ((Entry) row[x].get()).value));
+				out.changeEntry(((Entry)row[x].get()).column, x, ((Entry) row[x].get()).value);
 				row[x].moveNext();
 			}
 		}

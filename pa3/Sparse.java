@@ -13,13 +13,6 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Sparse {
-	//returns a tokenized string split around white spaces
-	public static String[] tokenize(String s)
-	{
-		String[] output = new String[3];
-		output = s.split("\\s");
-		return output;
-	}
 	//main function
 	public static void main(String[] args) throws IOException {
 
@@ -37,7 +30,7 @@ public class Sparse {
 		
 		//tokenized string for easy reading
 		String[] read = new String[3]; 
-		read = tokenize(first);
+		read = first.split("\\s");
 		
 		//convert tokens to ints
 		int size = Integer.parseInt(read[0]);
@@ -56,7 +49,7 @@ public class Sparse {
 		//make matrix A
 		for(int x = 1; x <= aNNZ; x++)
 		{
-			read = tokenize(in.nextLine());
+			read = in.nextLine().split("\\s");
 			//parse the values
 			row = Integer.parseInt(read[0]);
 			col = Integer.parseInt(read[1]);
@@ -67,14 +60,69 @@ public class Sparse {
 		//make Matrix B
 		for(int x = 1; x <= bNNZ; x++)
 		{
-			read = tokenize(in.nextLine());
+			read = in.nextLine().split("\\s");
 			//parse the values
 			row = Integer.parseInt(read[0]);
 			col = Integer.parseInt(read[1]);
 			val = Double.parseDouble(read[2]);
 			B.changeEntry(row, col, val);
 		}
-		System.out.println(B);
+		
+		//the part where the calculations are done
+		//print out A and B
+		out.println("A has " + aNNZ + " non-zero entries:");
+		out.println(A);
+		
+		out.println("B has " + bNNZ + " non-zero entries:");
+		out.println(B);
+		
+		//1.5*A
+		out.println("(1.5)*A =");
+		Matrix C = A.copy();
+		C = A.scalarMult(1.5);
+		out.println(C);
+		
+		//A+B
+		out.println("A+B =");
+		C.makeZero();
+		C = A.add(B);
+		out.println(C);
+		
+		//A+A
+		out.println("A+A =");
+		C.makeZero();
+		C = A.add(A);
+		out.println(C);
+		
+		//B-A
+		out.println("B-A =");
+		C.makeZero();
+		C = B.sub(A);
+		out.println(C);
+		
+		//A-A
+		out.println("A-A =");
+		C.makeZero();
+		C = A.sub(A);
+		out.println(C);
+		
+		//Transpose A
+		out.println("Transpose(A) =");
+		C.makeZero();
+		C = A.transpose();
+		out.println(C);
+		
+		//A*B
+		out.println("A*B =");
+		C.makeZero();
+		C = A.mult(B);
+		out.println(C);
+		
+		//B*B
+		out.println("B*B =");
+		C.makeZero();
+		C = B.mult(B);
+		out.println(C);
 		
 		// close the files
 		in.close();
