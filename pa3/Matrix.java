@@ -76,7 +76,7 @@ public class Matrix {
 	int getSize() {
 		int size = 0;
 		// traverse outer list to the end
-		size = row.length;
+		size = this.size;
 		return size;
 	}
 
@@ -133,6 +133,7 @@ public class Matrix {
 	void changeEntry(int i, int j, double x) {
 		// first check if the entry is in the matrix
 		if (i > this.size || j > this.size || i < 1 || j < 1) {
+			System.out.println(i + " " + j);
 			throw new RuntimeException("ENTRY ATTEMPTED TO BEING CHANGED IS NOT IN THE MATRIX");
 		}
 		// navigate to proper position within the ith list

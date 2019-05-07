@@ -1,0 +1,22 @@
+Julian To (jcto)
+Spring 2019
+PA3: Matrix/Sparse
+Professor Tantalo
+
+Provided Files:
+List.java: From PA1, and provides a List ADT that implements a Linked List. Modified to hold objects instead of ints. Includes a Node private class that forms the basis of the Linked List, that has been modified to accept objects.
+
+Matrix.java: Provides a Matrix ADT that implements all of the requested functions. Also includes an Entry private class that makes up the basis of the Linked List, i.e. the Linked Lists links a bunch of objects of the Entry class together.
+
+MatrixTest.java: A case-switch based testing file that I wrote to test extra stuff in addition to the provided MatrixClient file.
+
+MatrixClient.java: A provided test case file that implements some Matrix functions.'
+
+ListTest.java: A file used from PA1 to test the List class.
+
+Sparse.java: Main class that reads an input file, and makes two matrices from that file. Then, a select few algorithims are performed on that Matrix and the result is outputted to an output file. Requires two arguments, an input and output.
+
+Makefile: Slightly modified makefile designed to make the main class, Sparse.
+
+README: this file
+

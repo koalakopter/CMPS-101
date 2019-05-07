@@ -36,12 +36,13 @@ public class MatrixClient{
       Matrix E = A.sub(A);
       System.out.println(E.getNNZ());
       System.out.println(E);
-
+  
       Matrix F = B.transpose();
       System.out.println(F.getNNZ());
       System.out.println(F);
 
       Matrix G = B.mult(B);
+      //System.out.println("did I make it?");
       System.out.println(G.getNNZ());
       System.out.println(G);
 
@@ -55,5 +56,6 @@ public class MatrixClient{
       A.makeZero();
       System.out.println(A.getNNZ());
       System.out.println(A);
+     
    }
 }
