@@ -1,6 +1,7 @@
 #ifndef _GRAPH_H_INCLUDE_
 #define _GRAPH_H_INCLUDE_
 
+#include "List.h"
 #include <stdio.h>
 
 typedef struct GraphObj *Graph;
