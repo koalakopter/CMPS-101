@@ -22,7 +22,23 @@ int main(int argc, char *argv[]) {
     int fun2 = getSize(Zeppelin);
     printf("get order is: %d\n", fun);
     printf("get size is %d\n", fun);
+    // make some edges
+    addEdge(Zeppelin, 1, 2);
+    addEdge(Zeppelin, 2, 4);
+    addEdge(Zeppelin, 3, 1);
+    addEdge(Zeppelin, 4, 5);
+    printGraph(stdout, Zeppelin);
+    // make null tests
+    printf("making the Graph Null now!\n");
+    makeNull(Zeppelin);
+    printGraph(stdout, Zeppelin);
     break;
+  }
+  // try to add bad edges/arcs
+  case 2: {
+    printf("trying to add an edge that isn't in the graph\n");
+    addArc(Spee, 2, 3);
+    addArc(Spee, 5, 7);
   }
   default: {
     // pls no

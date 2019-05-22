@@ -15,7 +15,7 @@ Spring 2019
 #define NIL -1
 
 #define WHITE 0
-#define GRAY 1
+#define GREY 1
 #define BLACK 2
 
 // structs
@@ -54,7 +54,17 @@ Graph newGraph(int n) {
 
 // free memory
 void freeGraph(Graph *pG) {
-  // do stuff
+  makeNull(*pG);
+  // first free all the lists
+  for (int x = 0; x < getOrder(*pG); x++) {
+    freeList(&(*pG)->adjacent[x]);
+  }
+  free((*pG)->parent);
+  free((*pG)->adjacent);
+  free((*pG)->distance);
+  free((*pG)->colour);
+  free(*pG);
+  pG = NULL;
 }
 
 // returns the order (or number of vertices)
@@ -155,7 +165,18 @@ void getPath(List L, Graph G, int u) {
 // makes the graph null (wow)
 // deletes all edges
 void makeNull(Graph G) {
-  // placeholder
+  // revert all edges back to default state
+  for (int x = 1; x <= getOrder(G); x++) {
+    // delete all adjacency lists
+    while (length(G->adjacent[x]) > 0) {
+      deleteBack(G->adjacent[x]);
+    }
+    G->colour[x] = WHITE;
+    G->parent[x] = NIL;
+    G->distance[x] = INF;
+  }
+  G->size = 0;
+  G->source = NIL;
 }
 // adds an edge to the graph
 // adds v to adjacency list of u
@@ -244,8 +265,46 @@ void addArc(Graph G, int u, int v) {
 // follow algorithim from GraphTheory handout
 void BFS(Graph G, int s) {
   // set up algorithim
-  int u;
-  int v;
+  G->source = s;
+  // set all arrays to default, undiscovered states
+  for (int x = 0; x <= getOrder(G); x++) {
+    G->colour[x] = WHITE;
+    G->distance[x] = INF;
+    G->parent[x] = NIL;
+  }
+  // discover the source vertex, s
+  G->colour[s] = GREY;
+  G->distance[s] = 0;
+  G->parent[s] = NIL;
+  int a;
+  int b;
+  // new empty List
+  List z46 = newList(); // SEKAI ICHI
+  prepend(z46, s);      // enqueue the first vertex
+  while (length(z46) > 0) {
+    // pop the first value out of the queue
+    // moveFront(z46);
+    // a = get(z46);
+    a = front(z46);
+    deleteFront(z46);
+    // check all adjacent vertices to a
+    moveFront(G->adjacent[a]);
+    while (index(G->adjacent[a]) != -1) {
+      // check for undiscovered vertices
+      b = get(G->adjacent[a]);
+      if (G->colour[b] == WHITE) {
+        G->colour[b] = GREY;
+        G->distance[b] = G->distance[a] + 1;
+        G->parent[b] = a;
+        append(z46, b);
+      }
+      moveNext(G->adjacent[a]);
+    }
+    G->colour[a] = BLACK;
+  }
+  // free the memory at the end
+  freeList(&z46);
+  z46 = NULL;
 }
 
 // prints the Graph
