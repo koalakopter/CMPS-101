@@ -118,8 +118,8 @@ int getDist(Graph G, int u) {
     exit(1);
   }
   // also if BFS hasn't been called, return NIL
-  if (getSource(G) == NULL) {
-    return NIL;
+  if (getSource(G) == NIL) {
+    return INF;
   }
   return G->distance[u];
 }
@@ -134,7 +134,7 @@ void getPath(List L, Graph G, int u) {
     exit(1);
   }
   // error case 2: BFS hasn't been called yet
-  if (getSource(G) == NULL) {
+  if (getSource(G) == NIL) {
     printf("function getPath() error! BFS not called on source graph G");
     exit(1);
   }
@@ -149,5 +149,115 @@ void getPath(List L, Graph G, int u) {
     prepend(L, u);
     // recursive function, finds path until u is the source or no path is found
     getPath(L, G, G->parent[u]);
+  }
+}
+/**MANIPULATION PROCEDURES**/
+// makes the graph null (wow)
+// deletes all edges
+void makeNull(Graph G) {
+  // placeholder
+}
+// adds an edge to the graph
+// adds v to adjacency list of u
+// precondition: 1 < u && v < getOrder(u & v)
+void addEdge(Graph G, int u, int v) {
+  if (u >= 1 && u <= getOrder(G) && v >= 1 && v <= getOrder(G)) {
+    moveFront(G->adjacent[u]);
+    // traveres the list until an adjacent vertex is found
+    // that is greater than v
+    while (index(G->adjacent[u]) != -1) {
+      // if a value is found that is greater than the one in the list,
+      // exit loop early
+      if (get(G->adjacent[u]) > v) {
+        break;
+      }
+      moveNext(G->adjacent[u]);
+    }
+    // check the index
+    if (index(G->adjacent[u]) != -1) {
+      insertBefore(G->adjacent[u], v);
+    }
+    // cursor is off the list, put it on the end
+    else {
+      append(G->adjacent[u], v);
+    }
+    // PART 2
+    // DO IT AGAIN BUT SWAP U AND V
+    while (index(G->adjacent[v]) != -1) {
+      // if a value is found that is greater than the one in the list,
+      // exit loop early
+      if (get(G->adjacent[v]) > u) {
+        break;
+      }
+      moveNext(G->adjacent[v]);
+    }
+    // check the index
+    if (index(G->adjacent[v]) != -1) {
+      insertBefore(G->adjacent[v], u);
+    }
+    // cursor is off the list, put it on the end
+    else {
+      append(G->adjacent[v], u);
+    }
+    G->size++;
+  }
+  // precondition not met
+  else {
+    printf("invalid value of u or v for function addEdge()");
+    exit(1);
+  }
+}
+
+// like addEdge, but the connection is one way
+// i.e. a directed graph
+void addArc(Graph G, int u, int v) {
+  if (u >= 1 && u <= getOrder(G) && v >= 1 && v <= getOrder(G)) {
+    // first move cursor to the front of the adjacency list of the vertex
+    moveFront(G->adjacent[u]);
+    // traveres the list until an adjacent vertex is found
+    // that is greater than v
+    while (index(G->adjacent[u]) != -1) {
+      // if a value is found that is greater than the one in the list,
+      // exit loop early
+      if (get(G->adjacent[u]) > v) {
+        break;
+      }
+      moveNext(G->adjacent[u]);
+    }
+    // check the index
+    if (index(G->adjacent[u]) != -1) {
+      insertBefore(G->adjacent[u], v);
+    }
+    // cursor is off the list, put it on the end
+    else {
+      append(G->adjacent[u], v);
+    }
+    G->size++;
+  }
+  // precondition not met
+  else {
+    printf("invalid value of u or v for function addArc()");
+    exit(1);
+  }
+}
+// BREADTH-FIRST-SEARCH
+// follow algorithim from GraphTheory handout
+void BFS(Graph G, int s) {
+  // set up algorithim
+  int u;
+  int v;
+}
+
+// prints the Graph
+void printGraph(FILE *out, Graph G) {
+  // error check
+  if (out == NULL || G == NULL) {
+    printf("ERROR: parameter out or Graph G is NULL in printGraph()");
+    exit(1);
+  }
+  for (int i = 1; i <= getOrder(G); i++) {
+    fprintf(out, "%d: ", i);
+    printList(out, G->adjacent[i]);
+    fprintf(out, "\n");
   }
 }
