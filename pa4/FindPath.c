@@ -11,12 +11,11 @@ Spring 2019
 #include <stdlib.h>
 #include <string.h>
 
-#define ARBITRARY_LENGTH 40
+#define ARBITRARY_LENGTH 400
 
 // the MAIN attraction
 int main(int argc, char *argv[]) {
   // read in a file
-  int n, count = 0;
   FILE *in, *out;
   char line[ARBITRARY_LENGTH];
   // char tokenlist[MAX_LEN];
@@ -67,7 +66,7 @@ int main(int argc, char *argv[]) {
   }
   // print the graph
   printGraph(out, G);
-  fprintf(out, "\n"); // formatting
+  // fprintf(out, "\n"); // formatting
 
   int distance;
   // used to store a found path
@@ -82,6 +81,8 @@ int main(int argc, char *argv[]) {
     // do this to exit loop if last dummy line is reached
     if (num1 == 0 && num2 == 0) {
       break;
+    } else {
+      fprintf(out, "\n"); // more formatting
     }
     // printf("loop! %d and %d\n", num1, num2);
     // perform BFS from vertex s
@@ -97,11 +98,10 @@ int main(int argc, char *argv[]) {
     // otherwise, a path does exist
     else {
       getPath(path, G, num2);
-      char *printOut;
       fprintf(out, "The distance from %d to %d is %d\n", num1, num2, distance);
-      fprintf(out, "A shortest %d-%d path is: ", num1, num2, printOut);
+      fprintf(out, "A shortest %d-%d path is: ", num1, num2);
       printList(out, path);
-      fprintf(out, "\n\n");
+      fprintf(out, "\n");
       // make G null so we can find a new path on the next loop
       clear(path);
     }
@@ -110,4 +110,8 @@ int main(int argc, char *argv[]) {
   // close the files
   fclose(in);
   fclose(out);
+
+  // done with everything, free all the memory
+  freeList(&path);
+  freeGraph(&G);
 }
