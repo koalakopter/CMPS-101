@@ -483,10 +483,11 @@ void printList(FILE *out, List L) {
     exit(1);
   }
   Node temp = L->head;
-  while (temp != NULL) {
+  while (temp->nextItem != NULL) {
     fprintf(out, "%d ", temp->data);
     temp = temp->nextItem;
   }
+  fprintf(out, "%d", temp->data); // so there isn't a space at the end
 }
 
 // print the list but not in a file (just for tests)
@@ -497,10 +498,15 @@ void printList2(char *out, List L) {
     exit(1);
   }
   Node temp = L->head;
+  char *tempC;
   while (temp != NULL) {
-    printf(out, "%d", temp->data);
+    sprintf(tempC, "%d ", temp->data);
+    // concat strings
+    strcat(out, tempC);
     temp = temp->nextItem;
   }
+  free(tempC);
+  tempC = NULL;
 }
 
 // copies a list exactly except for the cursor

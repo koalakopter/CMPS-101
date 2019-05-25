@@ -1,6 +1,6 @@
 /*
 JULIAN TO (jcto)
-pa3: CMPS 101
+pa4: CMPS 101
 Professor Tantalo
 Spring 2019
 */
@@ -134,9 +134,9 @@ int getDist(Graph G, int u) {
   return G->distance[u];
 }
 
-// finds the shortest path from vertex G to source u
+// finds the shortest path in graph G to vertex u
 // or NIL if BFS hasn't been called before
-// OR L if no path exists between the two vertices
+// OR INF if no path exists between the two vertices
 void getPath(List L, Graph G, int u) {
   // error case 1: bad u value
   if (u < 1 || u > getOrder(G)) {
