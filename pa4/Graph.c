@@ -322,6 +322,11 @@ void printGraph(FILE *out, Graph G) {
   }
   for (int i = 1; i <= getOrder(G); i++) {
     fprintf(out, "%d: ", i);
+    // check for empty lists, if empty, print nothing
+    if (length(G->adjacent[i]) <= 0) {
+      fprintf(out, "\n");
+      continue;
+    }
     printList(out, G->adjacent[i]);
     fprintf(out, "\n");
   }

@@ -11,7 +11,7 @@ Spring 2019
 #include <stdlib.h>
 #include <string.h>
 
-#define ARBITRARY_LENGTH 400
+#define ARBITRARY_LENGTH 1000
 
 // the MAIN attraction
 int main(int argc, char *argv[]) {
@@ -94,6 +94,8 @@ int main(int argc, char *argv[]) {
     if (distance < 0) {
       fprintf(out, "The distance from %d to %d is infinity\n", num1, num2);
       fprintf(out, "No %d-%d path exists\n", num1, num2);
+      // printf("The distance from %d to %d is infinity\n", num1, num2);
+      // printf("No %d-%d path exists\n", num1, num2);
     }
     // otherwise, a path does exist
     else {
@@ -101,6 +103,12 @@ int main(int argc, char *argv[]) {
       fprintf(out, "The distance from %d to %d is %d\n", num1, num2, distance);
       fprintf(out, "A shortest %d-%d path is: ", num1, num2);
       printList(out, path);
+      // For printing to console
+      /*
+      printf("The distance from %d to %d is %d\n", num1, num2, distance);
+      printf("A shortest %d-%d path is: ", num1, num2);
+      printList(stdout, path);
+      */
       fprintf(out, "\n");
       // make G null so we can find a new path on the next loop
       clear(path);
