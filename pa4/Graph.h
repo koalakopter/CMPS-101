@@ -4,6 +4,13 @@
 #include "List.h"
 #include <stdio.h>
 
+#define INF -2
+#define NIL -1
+
+#define WHITE 0
+#define GREY 1
+#define BLACK 2
+
 typedef struct GraphObj *Graph;
 
 /*** Constructors-Destructors ***/

@@ -138,6 +138,11 @@ int getDist(Graph G, int u) {
 // or NIL if BFS hasn't been called before
 // OR INF if no path exists between the two vertices
 void getPath(List L, Graph G, int u) {
+  // check for null inputs
+  if (L == NULL || G == NULL) {
+    printf("NULL list or graph in getPath()");
+    exit(1);
+  }
   // error case 1: bad u value
   if (u < 1 || u > getOrder(G)) {
     printf("function getPath() called on invalid value of u");
@@ -204,6 +209,7 @@ void addEdge(Graph G, int u, int v) {
     }
     // PART 2
     // DO IT AGAIN BUT SWAP U AND V
+    moveFront(G->adjacent[v]);
     while (index(G->adjacent[v]) != -1) {
       // if a value is found that is greater than the one in the list,
       // exit loop early

@@ -92,8 +92,8 @@ int main(int argc, char *argv[]) {
     distance = getDist(G, num2);
     // printf("distance is: %d\n", distance);
     if (distance < 0) {
-      printf("The distance from %d to %d is infinity\n", num1, num2);
-      printf("No %d-%d path exists\n\n", num1, num2);
+      fprintf(out, "The distance from %d to %d is infinity\n", num1, num2);
+      fprintf(out, "No %d-%d path exists\n", num1, num2);
     }
     // otherwise, a path does exist
     else {
