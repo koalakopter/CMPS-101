@@ -134,7 +134,7 @@ int getDist(Graph G, int u) {
   return G->distance[u];
 }
 
-// finds the shortest path in graph G to vertex u
+// finds the shortest path in graph G to vertex u from BFS source
 // or NIL if BFS hasn't been called before
 // OR INF if no path exists between the two vertices
 void getPath(List L, Graph G, int u) {
@@ -155,21 +155,33 @@ void getPath(List L, Graph G, int u) {
   }
   // path found
   if (u == G->source) {
-    prepend(L, u);
+    // prepend(L, u);
+    append(L, u);
+    return;
   }
   // no path found
   else if (G->parent[u] == NIL) {
-    append(L, u);
-  } else {
-    prepend(L, u);
+    append(L, NIL);
+    return;
+  }
+  // continue
+  else {
+    // prepend(L, u);
     // recursive function, finds path until u is the source or no path is found
     getPath(L, G, G->parent[u]);
+    append(L, u);
+
+    return;
   }
 }
 /**MANIPULATION PROCEDURES**/
 // makes the graph null (wow)
 // deletes all edges
 void makeNull(Graph G) {
+  if (G == NULL) {
+    printf("G is already NULL");
+    return;
+  }
   // revert all edges back to default state
   for (int x = 1; x <= getOrder(G); x++) {
     // delete all adjacency lists
@@ -187,6 +199,10 @@ void makeNull(Graph G) {
 // adds v to adjacency list of u
 // precondition: 1 < u && v < getOrder(u & v)
 void addEdge(Graph G, int u, int v) {
+  if (G == NULL) {
+    printf("cannot addEdge to null Graph");
+    exit(1);
+  }
   if (u >= 1 && u <= getOrder(G) && v >= 1 && v <= getOrder(G)) {
     moveFront(G->adjacent[u]);
     // traveres the list until an adjacent vertex is found
@@ -238,6 +254,10 @@ void addEdge(Graph G, int u, int v) {
 // like addEdge, but the connection is one way
 // i.e. a directed graph
 void addArc(Graph G, int u, int v) {
+  if (G == NULL) {
+    printf("cannot addArc to null Graph");
+    exit(1);
+  }
   if (u >= 1 && u <= getOrder(G) && v >= 1 && v <= getOrder(G)) {
     // first move cursor to the front of the adjacency list of the vertex
     moveFront(G->adjacent[u]);
@@ -270,6 +290,10 @@ void addArc(Graph G, int u, int v) {
 // BREADTH-FIRST-SEARCH
 // follow algorithim from GraphTheory handout
 void BFS(Graph G, int s) {
+  if (G == NULL) {
+    printf("cannot perform BFS on null Graph");
+    exit(1);
+  }
   // set up algorithim
   G->source = s;
   // set all arrays to default, undiscovered states
