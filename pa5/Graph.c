@@ -27,6 +27,7 @@ typedef struct GraphObj {
   int *discover;
   int *finish;
   int *colour;
+  int time;
 } GraphObj;
 
 // constructor thingy
@@ -35,6 +36,7 @@ Graph newGraph(int n) {
   Graph G = malloc(sizeof(GraphObj));
   G->order = n;
   G->size = 0;
+  G->time = 0;
   // Space Created
   G->parent = malloc(sizeof(int) * (n + 1));
   G->discover = malloc(sizeof(int) * (n + 1));
@@ -230,9 +232,97 @@ void addArc(Graph G, int u, int v) {
     exit(1);
   }
 }
+// visit function for use with DFS
+void Visit(Graph G, List S, int u) {
+  // colour visited node GREY and set discover time
+  G->colour[u] = GREY;
+  G->time++;
+  G->discover[u] = G->time;
+  // check adjacency list
+  moveFront(G->adjacent[u]);
+  while (index(G->adjacent[u]) != -1) {
+    // check each adjacent vertex
+    if (G->colour[get(G->adjacent[u])] == WHITE) {
+      G->parent[get(G->adjacent[u])] = u;
+      Visit(G, S, get(G->adjacent[u]));
+    }
+    moveNext(G->adjacent[u]);
+  }
+  // when done, paint it black
+  G->colour[u] = BLACK;
+  G->time++;
+  G->finish[u] = G->time;
+  prepend(S, u); // add vertex to stack
+}
 
+// DEPTH-FIRST-SEARCH : Based upon pseudcode from handouts
 void DFS(Graph G, List S) {
-  // do stuff
+  // check for valid graph
+  if (G == NULL || S == NULL) {
+    printf("function getFinish() called on invalid Graph or List");
+    exit(1);
+  }
+  if (length(S) != getOrder(G)) {
+    printf("DFS() Error: List S not same size as G!");
+    exit(1);
+  }
+  // initialize all values to default values
+  for (int i = 0; i < getOrder(G); i++) {
+    G->parent[i] = NIL;
+    G->colour[i] = WHITE;
+    G->discover[i] = UNDEF;
+    G->finish[i] = UNDEF;
+  }
+
+  // set time = 0
+  G->time = 0;
+  moveFront(S); // move to front of List S
+  // traverse list
+  while (index(S) != -1) {
+    // check if vertex is not discovered yet
+    if (G->colour[get(S)] == WHITE) {
+      // if the vertex hasnt been discovered, visit it
+      Visit(G, S, get(S));
+    }
+    moveNext(S);
+  }
+}
+
+// transpose graph, returns a Transposed graph
+Graph transpose(Graph G) {
+  if (G == NULL) {
+    printf("function transpose() called on null Graph");
+    exit(1);
+  }
+  Graph output = newGraph(getOrder(G));
+  for (int i = 1; i <= getOrder(G); i++) {
+    // check each adjacency list and then add a reverse arc
+    moveFront(G->adjacent[i]);
+    while (index(G->adjacent[i]) != 1) {
+      addArc(output, get(G->adjacent[i]), i); // reverse each arc
+      moveNext(G->adjacent[i]);
+    }
+  }
+  return output;
+}
+
+// copies Graph G into a new graph
+Graph copyGraph(Graph G) {
+  // copying a null graph returns NULL??? maybe?
+  if (G == NULL) {
+    return NULL;
+  }
+  Graph output = newGraph(getOrder(G));
+  // process is similar to the function above
+  for (int i = 1; i <= getOrder(G); i++) {
+    // check each adjacency list and then add the arc
+    moveFront(G->adjacent[i]);
+    while (index(G->adjacent[i]) != 1) {
+      addArc(output, i, get(G->adjacent[i])); // copy each arc
+      moveNext(G->adjacent[i]);
+    }
+  }
+  return output;
 }
 
 // prints the Graph
