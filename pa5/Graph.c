@@ -27,7 +27,7 @@ typedef struct GraphObj {
   int *discover;
   int *finish;
   int *colour;
-  int time;
+  int time; // option one: make time a global variable
 } GraphObj;
 
 // constructor thingy

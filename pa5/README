@@ -1,0 +1,21 @@
+JULIAN TO
+CRUZ ID: jcto
+pa5: Graph.c and DFS
+Professor Tantalo
+
+PROVIDED FILES:
+List.h: From pa2, provides function declarations for List.c
+
+List.c: From pa2, provides functionality for a Doubly Linked List ADT.
+
+Graph.h: Provides function declarations for Graph.c, and a struct declaration of type Graph.
+
+Graph.c: Implements the functions described in Graph.h and the lab manual.
+
+GraphTest.c: A testing environment that I wrote to test some Graph.c functions in isolation and to test edge cases and other stuff.
+
+FindPath.c: The main file of this program. Defines a main function that constructs a graph as a representation of Lists. Then, in the second half, finds and prints out a list of strongly connected components and the number of them
+
+Makefile: Provided by the professor, makes the above programs when you type "make"
+
+README: this file

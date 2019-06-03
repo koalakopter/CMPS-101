@@ -4,7 +4,7 @@
 #include "List.h"
 #include <stdio.h>
 
-#define INF -2
+#define UNDEF -2
 #define NIL -1
 
 #define WHITE 0
