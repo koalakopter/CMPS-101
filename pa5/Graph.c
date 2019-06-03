@@ -252,7 +252,7 @@ void Visit(Graph G, List S, int u) {
   G->colour[u] = BLACK;
   G->time++;
   G->finish[u] = G->time;
-  prepend(S, u); // add vertex to stack
+  prepend(S, u); // add vertex that was finished to stack
 }
 
 // DEPTH-FIRST-SEARCH : Based upon pseudcode from handouts
@@ -276,16 +276,21 @@ void DFS(Graph G, List S) {
 
   // set time = 0
   G->time = 0;
-  moveFront(S); // move to front of List S
+  // use temp list to store the order in which vertices are processed
+  List order = copyList(S);
+  clear(S);         // this will keep track of what order vertices are finished
+  moveFront(order); // move to front of List order
   // traverse list
-  while (index(S) != -1) {
+  while (index(order) != -1) {
     // check if vertex is not discovered yet
-    if (G->colour[get(S)] == WHITE) {
+    if (G->colour[get(order)] == WHITE) {
       // if the vertex hasnt been discovered, visit it
-      Visit(G, S, get(S));
+      Visit(G, S, get(order));
     }
-    moveNext(S);
+    moveNext(order);
   }
+  // delete the original list from memory
+  freeList(&order);
 }
 
 // transpose graph, returns a Transposed graph
@@ -298,7 +303,7 @@ Graph transpose(Graph G) {
   for (int i = 1; i <= getOrder(G); i++) {
     // check each adjacency list and then add a reverse arc
     moveFront(G->adjacent[i]);
-    while (index(G->adjacent[i]) != 1) {
+    while (index(G->adjacent[i]) != -1) {
       addArc(output, get(G->adjacent[i]), i); // reverse each arc
       moveNext(G->adjacent[i]);
     }
@@ -317,7 +322,7 @@ Graph copyGraph(Graph G) {
   for (int i = 1; i <= getOrder(G); i++) {
     // check each adjacency list and then add the arc
     moveFront(G->adjacent[i]);
-    while (index(G->adjacent[i]) != 1) {
+    while (index(G->adjacent[i]) != -1) {
       addArc(output, i, get(G->adjacent[i])); // copy each arc
       moveNext(G->adjacent[i]);
     }
