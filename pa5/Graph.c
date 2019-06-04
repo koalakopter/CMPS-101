@@ -11,7 +11,7 @@ Spring 2019
 #include <stdlib.h>
 #include <string.h>
 
-#define INF -2
+#define UNDEF -2
 #define NIL -1
 
 #define WHITE 0
@@ -49,23 +49,27 @@ Graph newGraph(int n) {
     G->adjacent[i] = newList();
     G->parent[i] = NIL;
     G->colour[i] = WHITE;
+    G->discover[i] = UNDEF;
+    G->finish[i] = UNDEF;
   }
   return G;
 }
 
 // free memory
 void freeGraph(Graph *pG) {
-  makeNull(*pG);
+  // makeNull(*pG);
+  Graph toFree = *pG;
   // first free all the lists
-  for (int x = 0; x < getOrder(*pG); x++) {
-    freeList(&(*pG)->adjacent[x]);
+  for (int x = 0; x <= getOrder(*pG); x++) {
+    freeList(&(toFree)->adjacent[x]);
   }
-  free((*pG)->parent);
-  free((*pG)->adjacent);
-  free((*pG)->colour);
-  free((*pG)->finish);
+  free((toFree)->parent);
+  free((toFree)->adjacent);
+  free((toFree)->colour);
+  free((toFree)->finish);
+  free((toFree)->discover);
   free(*pG);
-  pG = NULL;
+  *pG = NULL;
 }
 
 // returns the order (or number of vertices)
@@ -145,8 +149,11 @@ void makeNull(Graph G) {
     }
     G->colour[x] = WHITE;
     G->parent[x] = NIL;
+    G->discover[x] = UNDEF;
+    G->finish[x] = UNDEF;
   }
   G->size = 0;
+  G->time = UNDEF;
 }
 // adds an edge to the graph
 // adds v to adjacency list of u
@@ -243,8 +250,8 @@ void Visit(Graph G, List S, int u) {
   while (index(G->adjacent[u]) != -1) {
     // check each adjacent vertex
     if (G->colour[get(G->adjacent[u])] == WHITE) {
-      G->parent[get(G->adjacent[u])] = u;
-      Visit(G, S, get(G->adjacent[u]));
+      G->parent[get(G->adjacent[u])] = u; // set parent of discovered vertex
+      Visit(G, S, get(G->adjacent[u]));   // visit it
     }
     moveNext(G->adjacent[u]);
   }
@@ -267,7 +274,7 @@ void DFS(Graph G, List S) {
     exit(1);
   }
   // initialize all values to default values
-  for (int i = 0; i < getOrder(G); i++) {
+  for (int i = 0; i <= getOrder(G); i++) {
     G->parent[i] = NIL;
     G->colour[i] = WHITE;
     G->discover[i] = UNDEF;
